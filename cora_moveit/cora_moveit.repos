@@ -20,5 +20,5 @@ repositories:
     url: https://github.com/moveit/moveit_msgs
     version: ros2
 
-# add these repos with the following command:
+# add these repos with the following command when building from source:
 # vcs import --recursive < cora_moveit/cora_moveit.repos

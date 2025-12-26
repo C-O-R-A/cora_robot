@@ -64,10 +64,10 @@ mkdir -p "${ROBOT_NAME}_msgs/srv"
 mkdir -p "${ROBOT_NAME}_msgs/action"
 
 # 6. Ethernet communication package (C++)
-echo "Creating ${ROBOT_NAME}_ethernet_driver (ament_cmake)..."
-ros2 pkg create "${ROBOT_NAME}_ethernet_driver" \
-    --build-type ament_cmake \
-    --dependencies rclcpp std_msgs geometry_msgs
+echo "Creating ${ROBOT_NAME}_codi (ament_python)..."
+ros2 pkg create "${ROBOT_NAME}_codi" \
+    --build-type ament_python \
+    --dependencies rclcpp std_msgs geometry_msgs moveit codi
 
 echo ""
 echo "------------------------------------------------------------"

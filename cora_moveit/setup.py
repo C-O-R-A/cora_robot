@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'cora_moveit_node = cora_moveit.mover_node_test:main'
         ],
     },
 )

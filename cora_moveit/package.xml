@@ -7,7 +7,7 @@
   <maintainer email="M.J.deLannoy@student.tudelft.nl">matt</maintainer>
   <license>TODO: License declaration</license>
 
-  <depend>moveit2</depend>
+  <depend>moveit</depend>
   <depend>moveit_msgs</depend>
   <depend>moveit_task_constructor</depend>
 
