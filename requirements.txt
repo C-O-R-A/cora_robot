@@ -1,0 +1,3 @@
+https://github.com/C-O-R-A/CoDI.git
+numpy
+cv2
