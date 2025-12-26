@@ -33,4 +33,4 @@ arm_controller:
 gripper_fingers_controller:
   ros__parameters:
     action_ns: gripper_cmd
-    joint: Finger1
+    joint: 'Finger1'
