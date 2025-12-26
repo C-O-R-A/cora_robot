@@ -5,8 +5,8 @@
     
     // Output format
     "output_format": "urdf",
-    "output_filename": "urdf/cora",
-    "assets_directory": "meshes/cora",
+    "output_filename": "cora_description/urdf/cora",
+    "assets_directory": "cora_description/meshes/cora",
 
     // Merge STL meshes (default: false)
     "merge_stls": true,

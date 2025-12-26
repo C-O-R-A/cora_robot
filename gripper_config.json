@@ -5,8 +5,8 @@
     
     // Output format
     "output_format": "urdf",
-    "output_filename": "urdf/gripper",
-    "assets_directory": "meshes/gripper",
+    "output_filename": "cora_description/urdf/gripper",
+    "assets_directory": "cora_description/meshes/gripper",
 
     // Merge STL meshes (default: false)
     "merge_stls": true,
