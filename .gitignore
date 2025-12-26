@@ -1,4 +1,5 @@
 .venv
+.env
 CoDI
 moveit_msgs
 moveit_task_constructor

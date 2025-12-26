@@ -41,3 +41,5 @@ export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$LD_LIBRA
 # You must add accell limits to joint limits config file
 #
 # End effector should have parent link L5, not end effector
+#
+# In controllers.yaml, for the gripperaction controller, 'joints' -> 'joint'

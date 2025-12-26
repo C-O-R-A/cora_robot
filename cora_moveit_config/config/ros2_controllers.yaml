@@ -32,5 +32,5 @@ arm_controller:
     allow_nonzero_velocity_at_trajectory_end: true
 gripper_fingers_controller:
   ros__parameters:
-    joints:
-      - Finger1
+    action_ns: gripper_cmd
+    joint: Finger1
