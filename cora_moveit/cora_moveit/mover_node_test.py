@@ -16,7 +16,8 @@ from moveit.planning import (
     MultiPipelinePlanRequestParameters,
 )
 from moveit_msgs import moveit_msgs_s__rosidl_typesupport_c
-
+from ament_index_python.packages import get_package_share_directory
+from moveit_configs_utils import MoveItConfigsBuilder
 
 def plan_and_execute(
     robot,
@@ -59,17 +60,28 @@ def main():
     rclpy.init()
     logger = get_logger("moveit_py.pose_goal")
 
-    # instantiate MoveItPy instance and get planning component
-    cora = MoveItPy(node_name="moveit_py")
-    cora_arm = cora.get_planning_component("cora")
+    # Instantiate MoveitPy with the chosen node name, 
+    # moveitpy picks up the moveit config passed 
+    # from the launch to the node with this name
+    cora = MoveItPy(node_name="cora_moveit_test")
+
+    # Get planning component
+    cora_arm = cora.get_planning_component("arm")
     logger.info("MoveItPy instance created")
 
     ###########################################################################
     # Plan 1 - set states with predefined string
     ###########################################################################
-
+    logger.info("---------------    PLAN 1 SET STATES WITH PREDEFINED STRING    ---------------")
     # set plan start state using predefined state
-    cora_arm.set_start_state(configuration_name="standby")
+
+    cora_arm.set_start_state_to_current_state()
+
+    cora_arm.set_goal_state(configuration_name="standby")
+
+    plan_and_execute(cora, cora_arm, logger, sleep_time=3.0)
+
+    cora_arm.set_start_state_to_current_state()
 
     # set pose goal using predefined state
     cora_arm.set_goal_state(configuration_name="straight")
@@ -80,6 +92,8 @@ def main():
     ###########################################################################
     # Plan 2 - set goal state with RobotState object
     ###########################################################################
+
+    logger.info("---------------    PLAN 2 SET GOAL STATE WITH ROBOTSTATE OBJECT    ---------------")
 
     # instantiate a RobotState instance using the current robot model
     robot_model = cora.get_robot_model()
@@ -102,6 +116,8 @@ def main():
     # Plan 3 - set goal state with PoseStamped message
     ###########################################################################
 
+    logger.info("---------------    PLAN 3 SET GOAL STATE WITH POSESTAMPED MESSAGE    ---------------")
+
     # set plan start state to current state
     cora_arm.set_start_state_to_current_state()
 
@@ -123,6 +139,8 @@ def main():
     # Plan 4 - set goal state with constraints
     ###########################################################################
 
+    logger.info("---------------    PLAN 4 SET GOAL STATE WITH CONSTRAINTS    ---------------")
+
     # set plan start state to current state
     cora_arm.set_start_state_to_current_state()
 
@@ -141,7 +159,7 @@ def main():
     robot_state.joint_positions = joint_values
     joint_constraint = construct_joint_constraint(
         robot_state=robot_state,
-        joint_model_group=cora.get_robot_model().get_joint_model_group("cora_arm"),
+        joint_model_group=cora.get_robot_model().get_joint_model_group("arm"),
     )
     cora_arm.set_goal_state(motion_plan_constraints=[joint_constraint])
 
@@ -151,6 +169,8 @@ def main():
     ###########################################################################
     # Plan 5 - Planning with Multiple Pipelines simultaneously
     ###########################################################################
+
+    logger.info("---------------    PLAN 5 PLANNING WITH MULTIPLE PIPELINES SIMULTANEOUSLY    ---------------")
 
     # set plan start state to current state
     cora_arm.set_start_state_to_current_state()

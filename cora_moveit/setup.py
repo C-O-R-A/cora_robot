@@ -1,4 +1,5 @@
 from setuptools import find_packages, setup
+from glob import glob
 
 package_name = 'cora_moveit'
 
@@ -10,6 +11,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/cora_moveit/launch', glob('launch/*.launch.py')),
+        ('share/cora_moveit/config', glob('config/*.yaml')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
