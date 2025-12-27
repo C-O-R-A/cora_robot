@@ -7,9 +7,11 @@ controller_manager:
       type: joint_trajectory_controller/JointTrajectoryController
 
 
-    gripper_fingers_controller:
-      type: position_controllers/GripperActionController
+    # gripper_fingers_controller:
+    #   type: position_controllers/GripperActionController
 
+    gripper_fingers_controller:
+      type: parallel_gripper_action_controller/GripperActionController
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -30,7 +32,19 @@ arm_controller:
       - position
       - velocity
     allow_nonzero_velocity_at_trajectory_end: true
+
+# gripper_fingers_controller:
+#   ros__parameters:
+#     action_ns: gripper_action
+#     joint: 'Finger1'
+#     allow_stalling: false
+#     goal_to_tolerance: 0.005
+
 gripper_fingers_controller:
   ros__parameters:
-    action_ns: gripper_cmd
-    joint: 'Finger1'
+    joint: Finger1        
+    state_interfaces:
+      - position
+      - velocity
+    goal_tolerance: 0.005
+    allow_stalling: false

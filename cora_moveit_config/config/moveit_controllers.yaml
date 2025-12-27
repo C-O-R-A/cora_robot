@@ -17,8 +17,10 @@ moveit_simple_controller_manager:
       - J5
       - J6
     action_ns: follow_joint_trajectory
+
   gripper_fingers_controller:
-    type: GripperCommand
-    joint: 'Finger1'
+    type: ParallelGripperCommand
     action_ns: gripper_cmd
     default: true
+    joints:
+      - Finger1

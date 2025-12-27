@@ -262,7 +262,7 @@
     <parent link="gripper_body"/>
     <child link="gripper_fingers"/>
     <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10" lower="2.45463e-16" upper="0.0385"/>
+    <limit effort="10" velocity="10" lower="0.0" upper="0.0385"/>
   </joint>
   <!-- Link gripper_fingers_2 -->
   <link name="gripper_fingers_2">
@@ -294,7 +294,7 @@
     <parent link="gripper_body"/>
     <child link="gripper_fingers_2"/>
     <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10" lower="-1.60028e-15" upper="0.0385"/>
+    <limit effort="10" velocity="10" lower="0.0" upper="0.0385"/>
     <mimic joint="Finger1" multiplier="1.0"/>
   </joint>
   <!-- Joint from endeffector to gripper_body -->
