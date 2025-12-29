@@ -1,0 +1,14 @@
+# Goal
+PoseStamped pose_goal
+string space
+string interface_type
+bool realtime
+---
+# Result
+PoseStamped pose_result
+string status_result
+bool success
+---
+# Feedback
+Posestamped pose_feedback
+string status

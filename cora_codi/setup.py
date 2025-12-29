@@ -11,7 +11,10 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=[
+        'setuptools',
+        'codi @ git+https://github.com/C-O-R-A/CoDI.git',
+    ],
     zip_safe=True,
     maintainer='matt',
     maintainer_email='M.J.deLannoy@student.tudelft.nl',
