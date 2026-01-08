@@ -186,7 +186,7 @@ class CodiNode(Node):
                 joint_msg = JointJog()
                 pose_msg = PoseStamped()
                 joint_msg.joint_names = [f"J{i}" for i in range(1, 7)]
-                joint_msg.displacements = [0.0] * len(joint_msg.joint_names)
+                # joint_msg.displacements = [0.0] * len(joint_msg.joint_names)
                 joint_msg.velocities = [0.0] * len(joint_msg.joint_names)
 
                 self.publish_pose = False
@@ -221,7 +221,6 @@ class CodiNode(Node):
                             pass
 
                         case "TS":
-
                             if interface_type == "position":
                                 if self.current_servo_mode != "POSE":
                                     self.switch_command_type("POSE")
