@@ -1,8 +1,9 @@
-
-git clone https://github.com/C-O-R-A/CoDI.git
-
+sudo apt install ros-jazzy
+sudo apt install ros-jazzy-ros2-control
+sudo apt install ros-jazzy-ros2-controllers
 sudo apt install ros-jazzy-moveit
 sudo apt install ros-jazzy-moveit-py
+sudo apt install ros-jazzy-moveit-servo
 sudo rosdep-install
 
 pip install -r requirements.txt
@@ -12,8 +13,24 @@ sudo apt update && sudo apt upgrade
 cd .. && colcon build --symlink-install
 
 source /opt/ros/jazzy/setup.bash
+echo "source /opt/ros/jazzy/setup.bash" >> ./bashrc
 source /install/setup.bash
 export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
+set -e
+
+echo "Setting ethernet hostname to cora"
+sudo hostnamectl set-hostname cora
+
+echo "Installing Avahi"
+sudo apt update
+sudo apt install -y avahi-daemon
+
+echo "Enabling Avahi"
+sudo systemctl enable avahi-daemon
+sudo systemctl start avahi-daemon
+
+echo "Done. Reboot recommended."
 
 # run with: './install.sh'
 
@@ -42,4 +59,4 @@ export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$LD_LIBRA
 #
 # End effector should have parent link L5, not end effector
 #
-# In controllers.yaml, for the gripperaction controller, 'joints' -> 'joint'
+# In controllers.yaml, for the gripperaction controller, 'joints' --> 'joint'

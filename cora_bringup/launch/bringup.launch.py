@@ -1,109 +1,72 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.conditions import IfCondition
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch.actions import (
+    IncludeLaunchDescription,
+    RegisterEventHandler,
+    DeclareLaunchArgument,
+    TimerAction,
+)
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
-from moveit_configs_utils import MoveItConfigsBuilder
+from launch.conditions import IfCondition
+from launch.event_handlers import (
+    OnExecutionComplete,
+)
+import os
 
 
 def generate_launch_description():
-    moveit_config = (
-        MoveItConfigsBuilder(
-            robot_name="cora", package_name="cora_moveit_config"
-        )
-        .robot_description(file_path="config/cora.urdf.xacro")
-        .trajectory_execution(file_path="config/moveit_controllers.yaml")
-        .to_moveit_configs()
+
+    # CoDi server config file path
+    config_file = os.path.join(
+        get_package_share_directory("cora_codi"), "config", "server_params.yaml"
     )
 
-    moveit_py_node = Node(
-        name="moveit_py",
-        package="moveit_py",
-        output="both",
-        parameters=[moveit_config.to_dict()],
+    # Whether to use CoDi
+    use_codi_arg = DeclareLaunchArgument(
+        "use_codi", default_value="true", description="Whether to use CoDi for control"
     )
 
     hardware_arg = DeclareLaunchArgument(
-        'hardware',
-        default_value='Fake',
-        description='Choose hardware type: Fake or Real'
+        "hardware",
+        default_value="Fake",
+        description="Choose hardware type: Fake or Real",
     )
 
-    hardware_value = LaunchConfiguration('hardware')
-
-    rviz_config_file = os.path.join(
-        get_package_share_directory("moveit2_tutorials"),
-        "config",
-        "motion_planning_python_api_tutorial.rviz",
+    # Include CoDi node
+    codi_node = Node(
+        package="cora_codi",
+        executable="codi_node",
+        name="codi_node",
+        output="both",
+        parameters=[{"config_file": config_file}],
+        condition=IfCondition(LaunchConfiguration("use_codi")),
     )
 
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        output="log",
-        arguments=["-d", rviz_config_file],
-        parameters=[
-            moveit_config.robot_description,
-            moveit_config.robot_description_semantic,
-        ],
-        condition=IfCondition(hardware_value.__eq__('Real'))
-    )
-
-    static_tf = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        name="static_transform_publisher",
-        output="log",
-        arguments=["--frame-id", "world", "--child-frame-id", "baselink"],
-    )
-
-    robot_state_publisher = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        name="robot_state_publisher",
-        output="log",
-        parameters=[moveit_config.robot_description],
-    )
-
-    ros2_controllers_path = os.path.join(
-        get_package_share_directory("moveit_resources_panda_moveit_config"),
-        "config",
-        "ros2_controllers.yaml",
-    )
-    ros2_control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[ros2_controllers_path],
-        remappings=[
-            ("/controller_manager/robot_description", "/robot_description"),
-        ],
-        output="log",
-    )
-
-    load_controllers = []
-    for controller in [
-        "panda_arm_controller",
-        "panda_hand_controller",
-        "joint_state_broadcaster",
-    ]:
-        load_controllers += [
-            ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner {}".format(controller)],
-                shell=True,
-                output="log",
+    # Include MoveIt and Mover node launch files,
+    # these will also launch RViz, tf2, controllers, etc
+    moveit_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory("cora_moveit"), "launch", "move.launch.py"
             )
-        ]
+        ),
+        launch_arguments={
+            "use_servo": "true",
+            "use_moveitpy": "true",
+        }.items(),
+    )
+
+    # Only start CoDi after MoveIt launch finishes initialization
+    codi_after_moveit = TimerAction(period=30.0, actions=[codi_node])
 
     return LaunchDescription(
         [
+            use_codi_arg,
             hardware_arg,
-            moveit_py_node,
-            robot_state_publisher,
-            ros2_control_node,
-            rviz_node,
-            static_tf,
+            moveit_launch,
+            codi_after_moveit,
         ]
-        + load_controllers
     )

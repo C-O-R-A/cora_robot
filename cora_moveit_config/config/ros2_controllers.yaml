@@ -28,6 +28,8 @@ arm_controller:
       - position
       - velocity
     allow_nonzero_velocity_at_trajectory_end: true
+    # state_publish_rate: 60.00
+    # action_monitor_rate: 20.00
 
 gripper_fingers_controller:
   ros__parameters:

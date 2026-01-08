@@ -15,7 +15,7 @@ find_package(std_msgs REQUIRED)
 
 set(msg_files
   "action/PoseGoal.action"
-  "action/GripperPoseGoal.action"
+  "msg/TargetedPoseStamped.msg"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

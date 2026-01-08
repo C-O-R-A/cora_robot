@@ -4,15 +4,10 @@
   <name>cora_interfaces</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="matthewdelannoy527@gmail.com">matth</maintainer>
-  <license>Apache-2.0</license>
+  <maintainer email="M.J.deLannoy@student.tudelft.nl">matt</maintainer>
+  <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-
-  <depend>builtin_interfaces</depend>
-  <depend>std_msgs</depend>
-  <depend>geometry_msgs</depend>
-  <depend>sensor_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

@@ -27,7 +27,9 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'cora_moveit_test = cora_moveit.mover_node_test:main'
+            'cora_moveit_test = cora_moveit.mover_node_test:main',
+            'moveitpy_node = cora_moveit.mover_node:main',
+            'keyboard_servo_node = cora_moveit.moveit_servo_test:main'
         ],
     },
 )

@@ -1,4 +1,5 @@
 from setuptools import find_packages, setup
+from glob import glob
 
 package_name = 'cora_codi'
 
@@ -10,6 +11,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/cora_codi/config', glob('config/*.yaml')),
+        ('share/cora_codi/launch', glob('launch/*.launch.py'))
     ],
     install_requires=[
         'setuptools',
@@ -27,6 +30,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'codi_node = cora_codi.codi:main',
         ],
     },
 )

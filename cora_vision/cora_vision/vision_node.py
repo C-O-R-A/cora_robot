@@ -2,9 +2,10 @@ from rclpy.lifecycle import LifecycleNode
 from rclpy.lifecycle import State
 from rclpy.lifecycle import TransitionCallbackReturn
 
+
 class VisionNode(LifecycleNode):
     def __init__(self):
-        super().__init__('vision_node')
+        super().__init__("vision_node")
 
     def on_configure(self, state: State):
         self.get_logger().info("Vision configuring...")
