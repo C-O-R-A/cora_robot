@@ -50,18 +50,16 @@ class MoverNodeServer(Node):
         self.robot_model = self.cora.get_robot_model()
         self.robot_state = RobotState(self.robot_model)
         self.joint_interface_methods = {
-            "position": self.robot_state.joint_positions,
-            "velocity": self.robot_state.joint_velocities,
+            "position": self.robot_state.set_joint_group_positions,
+            "velocity": self.robot_state.set_joint_group_velocities,
             "effort": self.robot_state.joint_efforts,
-            "acceleration": self.robot_state.joint_accelerations,
+            "acceleration": self.robot_state.set_joint_group_accelerations,
         }
 
     def handle_accepted_callback(self, goal_handle):
         with self._goal_queue_lock:
             if self.goal_handle is not None:
-                self.get_logger().info(
-                    f'Adding goal <<<{goal_handle}>>> to queue'
-                    )
+                self.get_logger().info(f"Adding goal <<<{goal_handle}>>> to queue")
                 self._goal_queue.append(goal_handle)
             else:
                 self.goal_handle = goal_handle
@@ -76,11 +74,11 @@ class MoverNodeServer(Node):
         return CancelResponse.ACCEPT
 
     def execute_callback(self, goal_handle):
-        
+
         try:
             self.get_logger().info(
-                f'Execution callback started on goal <<<{goal_handle}>>>'
-                )
+                f"Execution callback started on goal <<<{goal_handle}>>>"
+            )
             space = goal_handle.request.space.strip().upper()
             interface_type = goal_handle.request.interface_type.strip().lower()
             predefined_pose = None
@@ -89,14 +87,16 @@ class MoverNodeServer(Node):
 
             # Selecting a predefined pose takes precidence over any other goals
             if goal_handle.request.predefined_pose:
-                self.get_logger().info(f"Using predefined pose: {goal_handle.request.predefined_pose.strip().lower()}")
+                self.get_logger().info(
+                    f"Using predefined pose: {goal_handle.request.predefined_pose.strip().lower()}"
+                )
                 predefined_pose = goal_handle.request.predefined_pose.strip().lower()
-                self.cora_arm.set_goal_state(
-                    configuration_name=predefined_pose
-                    )
+                self.cora_arm.set_goal_state(configuration_name=predefined_pose)
 
+            # If no predefined pose is specified, proceed to set goal based on space
+            # Task Space goal
             elif space == "TS":
-                self.get_logger().info('Setting Task Space goal...')
+                self.get_logger().info("Setting Task Space goal...")
 
                 # Extract task space goal and target from action request
                 # pose goal should be posestamped msg sent from the client
@@ -107,59 +107,49 @@ class MoverNodeServer(Node):
 
                         # Set goal state
                         self.cora_arm.set_goal_state(
-                            pose_stamped_msg=pose_goal,
-                            pose_link=target
-                            )
-                    elif interface_type in ('velocity',
-                                            'acceleration',
-                                            'effort'):
+                            pose_stamped_msg=pose_goal, pose_link=target
+                        )
+                    elif interface_type in ("velocity", "acceleration", "effort"):
                         raise ValueError(
-                            'Mover Node cannot accept preplanned ' \
-                            'cartesian velocity or acceleration goals yet... \n'
-                            )
+                            "Mover Node cannot accept preplanned "
+                            "cartesian velocity or acceleration goals yet... \n"
+                        )
                     else:
-                        raise ValueError('Invalid interface type specified. ')
+                        raise ValueError("Invalid interface type specified. ")
 
                 except ValueError as e:
-                    self.get_logger().error(e +
-                                            'Cancelling motion plan request...'
-                                            )
+                    self.get_logger().error(e + "Cancelling motion plan request...")
                     goal_handle.abort()
                     return PoseGoal.Result()
 
+            # Joint Space goal
             elif space == "JS":
-                self.get_logger().info('Setting Joint Space goal...')
+                self.get_logger().info("Setting Joint Space goal...")
 
                 # Extract joint space goal array from action request
                 joint_goal = goal_handle.request.joint_goal
 
                 # Assign values from array to dict elements
-                joint_values = {
-                    f"J{idx}": i for (idx, i) in enumerate(joint_goal, 1)
-                    }
+                joint_values = {f"J{idx}": i for (idx, i) in enumerate(joint_goal, 1)}
 
                 # Set joint values to the correct interface
-                self.joint_interface_methods[interface_type] = joint_values
+                self.joint_interface_methods[interface_type](joint_values)
 
                 # Construct joint constraint goal
                 joint_constraint = construct_joint_constraint(
                     robot_state=self.robot_state,
-                    joint_model_group=self.robot_model.get_joint_model_group("arm")
+                    joint_model_group=self.robot_model.get_joint_model_group("arm"),
                 )
 
                 # Set goal state
-                self.cora_arm.set_goal_state(
-                    motion_plan_constraints=[joint_constraint]
-                    )
+                self.cora_arm.set_goal_state(motion_plan_constraints=[joint_constraint])
 
             else:
-                self.get_logger().info(
-                    f'Unrecognized goal space string: {space}'
-                    )
+                self.get_logger().info(f"Unrecognized goal space string: {space}")
                 goal_handle.abort()
                 return PoseGoal.Result()
 
-            self.get_logger().info('Planning Trajectory')
+            self.get_logger().info("Planning Trajectory")
             plan_result = self.cora_arm.plan()
 
             # execute the plan
@@ -172,15 +162,21 @@ class MoverNodeServer(Node):
                 return PoseGoal.Result()
 
             goal_handle.succeed()
+
             # Create a PoseStamped message
             pose_stamped_result = PoseStamped()
-            pose_stamped_result.header.stamp = self.get_clock().now().to_msg()  # current ROS time
-            pose_stamped_result.header.frame_id = "Gripper"                       # or the frame you used
-            pose_stamped_result.pose = self.robot_state.get_pose("Gripper")       # the Pose object
+            pose_stamped_result.header.stamp = (
+                self.get_clock().now().to_msg()
+            )  # current ROS time
+
+            pose_stamped_result.header.frame_id = "Gripper"  # or the frame you used
+            pose_stamped_result.pose = self.robot_state.get_pose(
+                "Gripper"
+            )  # the Pose object
 
             result = PoseGoal.Result()
             result.pose_result = pose_stamped_result
-            result.status_result = 'Complete'
+            result.status_result = "Complete"
             result.success = True
 
             return result
@@ -188,11 +184,11 @@ class MoverNodeServer(Node):
         finally:
             with self._goal_queue_lock:
                 try:
-                    self.get_logger().info('Retrieving goal from queue')
+                    self.get_logger().info("Retrieving goal from queue")
                     self.goal_handle = self._goal_queue.popleft()
                     self.goal_handle.execute()
                 except IndexError:
-                    self.get_logger().info('No goals left in queue')
+                    self.get_logger().info("No goals left in queue")
                     self.goal_handle = None
 
     def destroy(self):
@@ -214,4 +210,3 @@ def main(args=None):
     finally:
         action_server.destroy_node()
         rclpy.shutdown()
-

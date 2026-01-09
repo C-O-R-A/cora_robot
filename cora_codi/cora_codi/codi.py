@@ -31,11 +31,11 @@ class CodiNode(Node):
         # Status
         self.status = "idle"
         self.timer_period = 0.01
-        
+
         # Declare YAML config file path param
         self.declare_parameter(
             "config_file",  # name of parameter
-            str(HERE.parent / "config" / "server_params.yaml")  # default value
+            str(HERE.parent / "config" / "server_params.yaml"),  # default value
         )
 
         # Start CoDI server
@@ -73,7 +73,7 @@ class CodiNode(Node):
         self.rt_vel = np.zeros((2, 3))
         self.current_servo_mode = None
 
-        # Lifecycle Nodes
+        # Lifecycle Node clients
         self.vision_client = self.create_client(
             ChangeState, "/vision_node/change_state"
         )
@@ -83,6 +83,13 @@ class CodiNode(Node):
         self.controller_client = self.create_client(
             ChangeState, "/controller_node/change_state"
         )
+        self.use_vision = False
+        self.use_camera = False
+        self.use_controller = False
+        self.apply_config(self.use_camera,
+                          self.use_vision,
+                          self.use_controller)
+
         # for c in [self.vision_client, self.camera_client, self.controller_client]:
         #     c.wait_for_service()
         # self.create_timer(0.5, self.config_callback)
@@ -106,20 +113,19 @@ class CodiNode(Node):
             )
 
     def apply_config(self, config):
-        if config.use_vision:
-            self.activate_node(self.vision_client)
-        else:
-            self.deactivate_node(self.vision_client)
-
-        if config.use_camera:
-            self.activate_node(self.camera_client)
-        else:
-            self.deactivate_node(self.camera_client)
-
-        if config.use_controller:
-            self.activate_node(self.controller_client)
-        else:
-            self.deactivate_node(self.controller_client)
+        self.use_vision, self.use_camera, self.use_controller = config
+        for item in [
+            ("vision", self.vision_client, self.use_vision),
+            ("camera", self.camera_client, self.use_camera),
+            ("controller", self.controller_client, self.use_controller),
+        ]:
+            name, client, use_node = item
+            if use_node:
+                self.get_logger().info(f"Activating {name} node")
+                self.activate_node(client)
+            else:
+                self.get_logger().info(f"Deactivating {name} node")
+                self.deactivate_node(client)
 
     def transform_to_array(self, tf: TransformStamped):
         t = tf.transform.translation
@@ -144,15 +150,11 @@ class CodiNode(Node):
                 "base_link", "endeffector", rclpy.time.Time()
             )
 
-            self.gripper_transforms = self.transform_to_array(
-                gripper_transform_stamped
-                )
-            self.camera_transforms = self.transform_to_array(
-                camera_transform_stamped
-                )
+            self.gripper_transforms = self.transform_to_array(gripper_transform_stamped)
+            self.camera_transforms = self.transform_to_array(camera_transform_stamped)
             self.end_effector_transforms = self.transform_to_array(
                 end_effector_transform_stamped
-                )
+            )
 
             # Send to Client
             self.codi_server.send_state(
@@ -180,13 +182,16 @@ class CodiNode(Node):
                 pose_command,
                 predef_pose,
             ) = command
-            
+
             if rt:  # Moveit Servo pipeline
+                # Moveit Servo is kept separate
+                # due to its real-time requirements
+                # Ros2 actions are not real-time safe
                 twist_msg = TwistStamped()
                 joint_msg = JointJog()
                 pose_msg = PoseStamped()
                 joint_msg.joint_names = [f"J{i}" for i in range(1, 7)]
-                # joint_msg.displacements = [0.0] * len(joint_msg.joint_names)
+                # joint_msg.displacements = [0.0] * len(joint_msg.joint_names) # not yet supported
                 joint_msg.velocities = [0.0] * len(joint_msg.joint_names)
 
                 self.publish_pose = False
@@ -405,7 +410,7 @@ class CodiNode(Node):
             self.get_logger().warn("Motion failed")
 
     def config_callback(self):
-        config = self.codi_server.receive_config()
+        config = self.codi_server.get_config()
         self.apply_config(config)
 
     def switch_command_type(self, cmd_type: str):
