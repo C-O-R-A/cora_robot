@@ -25,6 +25,9 @@ CONFIG = HERE.parent / "config" / "server_params.yaml"
 
 
 class CodiNode(Node):
+    # TODO: Add lifecycle management to this node
+    # TODO: Add dynamic reconfigure for parameters
+    # TODO: Add new predefined pose fucntionality using MoveitPy and srdf
     def __init__(self):
         super().__init__("codi_node")
 
@@ -226,67 +229,14 @@ class CodiNode(Node):
                             pass
 
                         case "TS":
-                            if interface_type == "position":
-                                if self.current_servo_mode != "POSE":
-                                    self.switch_command_type("POSE")
-                                    self.current_servo_mode = "POSE"
-                                self.publish_pose = True
-                                pose_msg.pose.position.x = pose_command[0, 0]
-                                pose_msg.pose.position.y = pose_command[0, 1]
-                                pose_msg.pose.position.z = pose_command[0, 2]
-                                pose_msg.pose.orientation.x = pose_command[1, 0]
-                                pose_msg.pose.orientation.y = pose_command[1, 1]
-                                pose_msg.pose.orientation.z = pose_command[1, 2]
-                                pose_msg.pose.orientation.w = pose_command[1, 3]
+                            interface_methods = {
+                                "position": [self.construct_pose_msg, pose_msg],
+                                "velocity": [self.construct_twist_msg, twist_msg],
+                                "acceleration": [self.construct_twist_from_accel, twist_msg],
+                            }
 
-                            elif interface_type == "velocity":
-                                if self.current_servo_mode != "TWIST":
-                                    self.switch_command_type("TWIST")
-                                    self.current_servo_mode = "TWIST"
-                                self.publish_twist = True
-                                twist_msg.twist.linear.x = pose_command[0, 0]
-                                twist_msg.twist.linear.y = pose_command[0, 1]
-                                twist_msg.twist.linear.z = pose_command[0, 2]
-                                twist_msg.twist.angular.x = pose_command[1, 0]
-                                twist_msg.twist.angular.y = pose_command[1, 1]
-                                twist_msg.twist.angular.z = pose_command[1, 2]
-                                self.rt_vel = pose_command
-
-                            elif interface_type == "acceleration":
-                                if self.current_servo_mode != "TWIST":
-                                    self.switch_command_type("TWIST")
-                                    self.current_servo_mode = "TWIST"
-                                self.publish_twist = True
-                                self.rt_vel[0, 0] += (
-                                    pose_command[0, 0] * self.timer_period
-                                )
-                                twist_msg.twist.linear.x = self.rt_vel[0, 0]
-
-                                self.rt_vel[0, 1] += (
-                                    pose_command[0, 1] * self.timer_period
-                                )
-                                twist_msg.twist.linear.y = self.rt_vel[0, 1]
-
-                                self.rt_vel[0, 2] += (
-                                    pose_command[0, 2] * self.timer_period
-                                )
-                                twist_msg.twist.linear.z = self.rt_vel[0, 2]
-
-                                self.rt_vel[1, 0] += (
-                                    pose_command[1, 0] * self.timer_period
-                                )
-                                twist_msg.twist.angular.x = self.rt_vel[1, 0]
-
-                                self.rt_vel[1, 1] += (
-                                    pose_command[1, 1] * self.timer_period
-                                )
-                                twist_msg.twist.angular.y = self.rt_vel[1, 1]
-
-                                self.rt_vel[1, 2] += (
-                                    pose_command[1, 2] * self.timer_period
-                                )
-                                twist_msg.twist.angular.z = self.rt_vel[1, 2]
-
+                            if interface_type in ("position", "velocity", "acceleration"):
+                                interface_methods[interface_type][0](pose_command, interface_methods[interface_type][1])
                             else:
                                 raise ValueError(
                                     f"Unsupported interface type specified: {interface_type}"
@@ -383,6 +333,67 @@ class CodiNode(Node):
 
         except Exception:
             pass
+
+    def construct_twist_from_accel(self, pose_command, msg):
+        if self.current_servo_mode != "TWIST":
+            self.switch_command_type("TWIST")
+            self.current_servo_mode = "TWIST"
+        self.publish_twist = True
+        self.rt_vel[0, 0] += (
+                                    pose_command[0, 0] * self.timer_period
+                                )
+        msg.twist.linear.x = self.rt_vel[0, 0]
+
+        self.rt_vel[0, 1] += (
+                                    pose_command[0, 1] * self.timer_period
+                                )
+        msg.twist.linear.y = self.rt_vel[0, 1]
+
+        self.rt_vel[0, 2] += (
+                                    pose_command[0, 2] * self.timer_period
+                                )
+        msg.twist.linear.z = self.rt_vel[0, 2]
+
+        self.rt_vel[1, 0] += (
+                                    pose_command[1, 0] * self.timer_period
+                                )
+        msg.twist.angular.x = self.rt_vel[1, 0]
+
+        self.rt_vel[1, 1] += (
+                                    pose_command[1, 1] * self.timer_period
+                                )
+        msg.twist.angular.y = self.rt_vel[1, 1]
+
+        self.rt_vel[1, 2] += (
+                                    pose_command[1, 2] * self.timer_period
+                                )
+        msg.twist.angular.z = self.rt_vel[1, 2]
+
+    def construct_twist_msg(self, pose_command, msg):
+        if self.current_servo_mode != "TWIST":
+            self.switch_command_type("TWIST")
+            self.current_servo_mode = "TWIST"
+        self.publish_twist = True
+        msg.twist.linear.x = pose_command[0, 0]
+        msg.twist.linear.y = pose_command[0, 1]
+        msg.twist.linear.z = pose_command[0, 2]
+        msg.twist.angular.x = pose_command[1, 0]
+        msg.twist.angular.y = pose_command[1, 1]
+        msg.twist.angular.z = pose_command[1, 2]
+        self.rt_vel = pose_command
+
+    def construct_pose_msg(self, pose_command, msg):
+        if self.current_servo_mode != "POSE":
+            self.switch_command_type("POSE")
+            self.current_servo_mode = "POSE"
+        self.publish_pose = True
+        msg.pose.position.x = pose_command[0, 0]
+        msg.pose.position.y = pose_command[0, 1]
+        msg.pose.position.z = pose_command[0, 2]
+        msg.pose.orientation.x = pose_command[1, 0]
+        msg.pose.orientation.y = pose_command[1, 1]
+        msg.pose.orientation.z = pose_command[1, 2]
+        msg.pose.orientation.w = pose_command[1, 3]
 
     def pose_feedback_callback(self, feedback_msg):
         # feedback = feedback_msg.feedback()
