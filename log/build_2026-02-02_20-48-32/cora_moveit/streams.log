@@ -1,0 +1,23 @@
+[0.817s] Invoking command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_moveit': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_moveit build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/install.log --single-version-externally-managed install_data
+[0.950s] running egg_info
+[0.959s] writing ../build/cora_moveit/cora_moveit.egg-info/PKG-INFO
+[0.959s] writing dependency_links to ../build/cora_moveit/cora_moveit.egg-info/dependency_links.txt
+[0.959s] writing entry points to ../build/cora_moveit/cora_moveit.egg-info/entry_points.txt
+[0.959s] writing requirements to ../build/cora_moveit/cora_moveit.egg-info/requires.txt
+[0.959s] writing top-level names to ../build/cora_moveit/cora_moveit.egg-info/top_level.txt
+[0.979s] reading manifest file '../build/cora_moveit/cora_moveit.egg-info/SOURCES.txt'
+[0.980s] writing manifest file '../build/cora_moveit/cora_moveit.egg-info/SOURCES.txt'
+[0.980s] running build
+[0.980s] running build_py
+[0.980s] running install
+[0.983s] running install_lib
+[0.992s] running install_data
+[0.992s] running install_egg_info
+[1.003s] removing '/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit-0.0.0-py3.12.egg-info' (and everything under it)
+[1.003s] Copying ../build/cora_moveit/cora_moveit.egg-info to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit-0.0.0-py3.12.egg-info
+[1.003s] running install_scripts
+[1.070s] Installing cora_moveit_test script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/cora_moveit
+[1.070s] Installing keyboard_servo_node script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/cora_moveit
+[1.070s] Installing moveitpy_node script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/cora_moveit
+[1.070s] writing list of installed files to '/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/install.log'
+[1.085s] Invoked command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_moveit' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_moveit build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/install.log --single-version-externally-managed install_data

@@ -1,0 +1,9 @@
+/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_gripper_1_description/CMakeFiles/uninstall.dir
+/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_gripper_1_description/CMakeFiles/cora_gripper_1_description_uninstall.dir
+/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_gripper_1_description/CMakeFiles/test.dir
+/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_gripper_1_description/CMakeFiles/edit_cache.dir
+/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_gripper_1_description/CMakeFiles/rebuild_cache.dir
+/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_gripper_1_description/CMakeFiles/list_install_components.dir
+/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_gripper_1_description/CMakeFiles/install.dir
+/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_gripper_1_description/CMakeFiles/install/local.dir
+/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_gripper_1_description/CMakeFiles/install/strip.dir

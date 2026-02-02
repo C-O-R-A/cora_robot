@@ -1,0 +1,182 @@
+[  2%] Built target cora_msgs__rosidl_generator_type_description
+[  2%] Built target ament_cmake_python_copy_cora_msgs
+[  4%] Built target cora_msgs__cpp
+[ 22%] Built target cora_msgs__rosidl_generator_c
+[ 31%] Built target cora_msgs__rosidl_typesupport_c
+[ 45%] Built target cora_msgs__rosidl_typesupport_fastrtps_cpp
+[ 52%] Built target cora_msgs__rosidl_typesupport_introspection_c
+[ 59%] Built target cora_msgs__rosidl_typesupport_cpp
+[ 77%] Built target cora_msgs__rosidl_typesupport_fastrtps_c
+[ 77%] Built target cora_msgs__rosidl_typesupport_introspection_cpp
+[ 77%] Built target cora_msgs
+[ 79%] Built target cora_msgs__py
+[ 86%] Built target cora_msgs__rosidl_generator_py
+[ 90%] Built target cora_msgs_s__rosidl_typesupport_fastrtps_c
+[ 95%] Built target cora_msgs_s__rosidl_typesupport_introspection_c
+[100%] Built target cora_msgs_s__rosidl_typesupport_c
+running egg_info
+writing cora_msgs.egg-info/PKG-INFO
+writing dependency_links to cora_msgs.egg-info/dependency_links.txt
+writing top-level names to cora_msgs.egg-info/top_level.txt
+reading manifest file 'cora_msgs.egg-info/SOURCES.txt'
+writing manifest file 'cora_msgs.egg-info/SOURCES.txt'
+[100%] Built target ament_cmake_python_build_cora_msgs_egg
+-- Install configuration: ""
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/ament_index/resource_index/rosidl_interfaces/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/action/PoseGoal.json
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/msg/TargetedPoseStamped.json
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/pose_goal.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__type_support.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__type_support.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__functions.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__functions.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__description.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__struct.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__functions.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__struct.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__description.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__functions.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__type_support.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__type_support.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/rosidl_generator_c__visibility_control.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/targeted_pose_stamped.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/environment/library_path.sh
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/environment/library_path.dsv
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/libcora_msgs__rosidl_generator_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/libcora_msgs__rosidl_typesupport_fastrtps_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/pose_goal.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__struct.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__builder.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__type_support.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__traits.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__builder.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__struct.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__traits.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__type_support.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/targeted_pose_stamped.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/dds_fastrtps
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/dds_fastrtps
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/libcora_msgs__rosidl_typesupport_fastrtps_cpp.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__type_support.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__rosidl_typesupport_introspection_c.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__rosidl_typesupport_introspection_c.h
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__type_support.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/libcora_msgs__rosidl_typesupport_introspection_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/libcora_msgs__rosidl_typesupport_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/action/detail/pose_goal__type_support.cpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__type_support.cpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/include/cora_msgs/cora_msgs/msg/detail/targeted_pose_stamped__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/libcora_msgs__rosidl_typesupport_introspection_cpp.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/libcora_msgs__rosidl_typesupport_cpp.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/environment/pythonpath.sh
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/environment/pythonpath.dsv
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs-0.0.0-py3.12.egg-info
+-- Installing: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs-0.0.0-py3.12.egg-info/SOURCES.txt
+-- Installing: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs-0.0.0-py3.12.egg-info/PKG-INFO
+-- Installing: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs-0.0.0-py3.12.egg-info/dependency_links.txt
+-- Installing: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs-0.0.0-py3.12.egg-info/top_level.txt
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/action
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/action/_pose_goal_s.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/action/_pose_goal.py
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/action/__init__.py
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/_cora_msgs_s.ep.rosidl_typesupport_c.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/msg
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/msg/_targeted_pose_stamped.py
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/msg/_targeted_pose_stamped_s.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/msg/__init__.py
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/_cora_msgs_s.ep.rosidl_typesupport_introspection_c.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/cora_msgs_s__rosidl_typesupport_introspection_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/cora_msgs_s__rosidl_typesupport_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/cora_msgs_s__rosidl_typesupport_fastrtps_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/_cora_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/__init__.py
+Listing '/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs'...
+Listing '/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/action'...
+Listing '/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/msg'...
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/cora_msgs_s__rosidl_typesupport_fastrtps_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/cora_msgs_s__rosidl_typesupport_introspection_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/python3.12/site-packages/cora_msgs/cora_msgs_s__rosidl_typesupport_c.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/lib/libcora_msgs__rosidl_generator_py.so
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/action/PoseGoal.idl
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/msg/TargetedPoseStamped.idl
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/action/PoseGoal.action
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/msg/TargetedPoseStamped.msg
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/ament_index/resource_index/package_run_dependencies/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/ament_index/resource_index/parent_prefix_path/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/environment/ament_prefix_path.sh
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/environment/path.sh
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/environment/path.dsv
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/local_setup.bash
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/local_setup.sh
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/local_setup.zsh
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/local_setup.dsv
+-- Installing: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/package.dsv
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/ament_index/resource_index/packages/cora_msgs
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/export_cora_msgs__rosidl_generator_cExport.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/export_cora_msgs__rosidl_generator_cExport-noconfig.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/export_cora_msgs__rosidl_typesupport_fastrtps_cExport.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/export_cora_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/export_cora_msgs__rosidl_generator_cppExport.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/export_cora_msgs__rosidl_typesupport_fastrtps_cppExport.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/export_cora_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgs__rosidl_typesupport_introspection_cExport.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgs__rosidl_typesupport_cExport.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgs__rosidl_typesupport_cExport-noconfig.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgs__rosidl_typesupport_introspection_cppExport.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgs__rosidl_typesupport_cppExport.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgs__rosidl_typesupport_cppExport-noconfig.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/export_cora_msgs__rosidl_generator_pyExport.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/export_cora_msgs__rosidl_generator_pyExport-noconfig.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/rosidl_cmake-extras.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgsConfig.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/cmake/cora_msgsConfig-version.cmake
+-- Up-to-date: /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_msgs/share/cora_msgs/package.xml

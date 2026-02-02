@@ -1,0 +1,39 @@
+running egg_info
+creating ../build/cora_codi/cora_codi.egg-info
+writing ../build/cora_codi/cora_codi.egg-info/PKG-INFO
+writing dependency_links to ../build/cora_codi/cora_codi.egg-info/dependency_links.txt
+writing entry points to ../build/cora_codi/cora_codi.egg-info/entry_points.txt
+writing requirements to ../build/cora_codi/cora_codi.egg-info/requires.txt
+writing top-level names to ../build/cora_codi/cora_codi.egg-info/top_level.txt
+writing manifest file '../build/cora_codi/cora_codi.egg-info/SOURCES.txt'
+reading manifest file '../build/cora_codi/cora_codi.egg-info/SOURCES.txt'
+writing manifest file '../build/cora_codi/cora_codi.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_codi/build
+creating /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_codi/build/lib
+creating /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_codi/build/lib/cora_codi
+copying cora_codi/codi.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_codi/build/lib/cora_codi
+copying cora_codi/__init__.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_codi/build/lib/cora_codi
+running install
+running install_lib
+creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/python3.12/site-packages/cora_codi
+copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_codi/build/lib/cora_codi/codi.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/python3.12/site-packages/cora_codi
+copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_codi/build/lib/cora_codi/__init__.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/python3.12/site-packages/cora_codi
+byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/python3.12/site-packages/cora_codi/codi.py to codi.cpython-312.pyc
+byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/python3.12/site-packages/cora_codi/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/share/ament_index
+creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/share/ament_index/resource_index
+creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/share/ament_index/resource_index/packages
+copying resource/cora_codi -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/share/ament_index/resource_index/packages
+copying package.xml -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/share/cora_codi
+creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/share/cora_codi/config
+copying config/server_params.yaml -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/share/cora_codi/config
+creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/share/cora_codi/launch
+copying launch/codi.launch.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/share/cora_codi/launch
+running install_egg_info
+Copying ../build/cora_codi/cora_codi.egg-info to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/python3.12/site-packages/cora_codi-0.0.0-py3.12.egg-info
+running install_scripts
+Installing codi_node script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/cora_codi
+writing list of installed files to '/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_codi/install.log'

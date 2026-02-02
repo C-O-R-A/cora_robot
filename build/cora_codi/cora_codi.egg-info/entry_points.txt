@@ -1,0 +1,2 @@
+[console_scripts]
+codi_node = cora_codi.codi:main

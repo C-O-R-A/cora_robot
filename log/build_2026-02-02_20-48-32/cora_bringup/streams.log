@@ -1,0 +1,19 @@
+[0.810s] Invoking command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_bringup': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_bringup build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_bringup/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_bringup/install.log --single-version-externally-managed install_data
+[0.942s] running egg_info
+[0.951s] writing ../build/cora_bringup/cora_bringup.egg-info/PKG-INFO
+[0.951s] writing dependency_links to ../build/cora_bringup/cora_bringup.egg-info/dependency_links.txt
+[0.951s] writing requirements to ../build/cora_bringup/cora_bringup.egg-info/requires.txt
+[0.951s] writing top-level names to ../build/cora_bringup/cora_bringup.egg-info/top_level.txt
+[0.969s] reading manifest file '../build/cora_bringup/cora_bringup.egg-info/SOURCES.txt'
+[0.970s] writing manifest file '../build/cora_bringup/cora_bringup.egg-info/SOURCES.txt'
+[0.970s] running build
+[0.970s] running build_py
+[0.970s] running install
+[0.973s] running install_lib
+[0.982s] running install_data
+[0.982s] running install_egg_info
+[0.992s] removing '/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_bringup/lib/python3.12/site-packages/cora_bringup-0.0.0-py3.12.egg-info' (and everything under it)
+[0.993s] Copying ../build/cora_bringup/cora_bringup.egg-info to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_bringup/lib/python3.12/site-packages/cora_bringup-0.0.0-py3.12.egg-info
+[0.993s] running install_scripts
+[1.061s] writing list of installed files to '/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_bringup/install.log'
+[1.075s] Invoked command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_bringup' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_bringup/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_bringup build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_bringup/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_bringup/install.log --single-version-externally-managed install_data

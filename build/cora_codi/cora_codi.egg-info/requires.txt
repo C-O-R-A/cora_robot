@@ -1,0 +1,5 @@
+codi@ git+https://github.com/C-O-R-A/CoDI.git
+setuptools
+
+[test]
+pytest

@@ -1,0 +1,19 @@
+running egg_info
+writing ../build/cora_codi/cora_codi.egg-info/PKG-INFO
+writing dependency_links to ../build/cora_codi/cora_codi.egg-info/dependency_links.txt
+writing entry points to ../build/cora_codi/cora_codi.egg-info/entry_points.txt
+writing requirements to ../build/cora_codi/cora_codi.egg-info/requires.txt
+writing top-level names to ../build/cora_codi/cora_codi.egg-info/top_level.txt
+reading manifest file '../build/cora_codi/cora_codi.egg-info/SOURCES.txt'
+writing manifest file '../build/cora_codi/cora_codi.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+running install_egg_info
+removing '/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/python3.12/site-packages/cora_codi-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../build/cora_codi/cora_codi.egg-info to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/python3.12/site-packages/cora_codi-0.0.0-py3.12.egg-info
+running install_scripts
+Installing codi_node script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_codi/lib/cora_codi
+writing list of installed files to '/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_codi/install.log'

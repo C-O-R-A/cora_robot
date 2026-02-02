@@ -1,0 +1,7 @@
+{
+  "package_name": "cora_msgs",
+  "non_idl_tuples": [
+    "/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_msgs:action/PoseGoal.action",
+    "/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_msgs:msg/TargetedPoseStamped.msg"
+  ]
+}

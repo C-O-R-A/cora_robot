@@ -1,0 +1,53 @@
+[0.863s] Invoking command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_moveit': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_moveit build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/install.log --single-version-externally-managed install_data
+[1.022s] running egg_info
+[1.022s] creating ../build/cora_moveit/cora_moveit.egg-info
+[1.032s] writing ../build/cora_moveit/cora_moveit.egg-info/PKG-INFO
+[1.033s] writing dependency_links to ../build/cora_moveit/cora_moveit.egg-info/dependency_links.txt
+[1.033s] writing entry points to ../build/cora_moveit/cora_moveit.egg-info/entry_points.txt
+[1.033s] writing requirements to ../build/cora_moveit/cora_moveit.egg-info/requires.txt
+[1.033s] writing top-level names to ../build/cora_moveit/cora_moveit.egg-info/top_level.txt
+[1.033s] writing manifest file '../build/cora_moveit/cora_moveit.egg-info/SOURCES.txt'
+[1.057s] reading manifest file '../build/cora_moveit/cora_moveit.egg-info/SOURCES.txt'
+[1.057s] writing manifest file '../build/cora_moveit/cora_moveit.egg-info/SOURCES.txt'
+[1.057s] running build
+[1.057s] running build_py
+[1.057s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build
+[1.058s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib
+[1.058s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit
+[1.058s] copying cora_moveit/moveit_servo_test.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit
+[1.058s] copying cora_moveit/mover_node_test.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit
+[1.058s] copying cora_moveit/__init__.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit
+[1.058s] copying cora_moveit/gripper_node.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit
+[1.058s] copying cora_moveit/mover_node.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit
+[1.058s] running install
+[1.063s] running install_lib
+[1.075s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit
+[1.076s] copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit/moveit_servo_test.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit
+[1.076s] copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit/mover_node_test.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit
+[1.076s] copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit/__init__.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit
+[1.076s] copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit/gripper_node.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit
+[1.076s] copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build/lib/cora_moveit/mover_node.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit
+[1.076s] byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit/moveit_servo_test.py to moveit_servo_test.cpython-312.pyc
+[1.077s] byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit/mover_node_test.py to mover_node_test.cpython-312.pyc
+[1.078s] byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit/__init__.py to __init__.cpython-312.pyc
+[1.078s] byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit/gripper_node.py to gripper_node.cpython-312.pyc
+[1.078s] byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit/mover_node.py to mover_node.cpython-312.pyc
+[1.079s] running install_data
+[1.079s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/ament_index
+[1.079s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/ament_index/resource_index
+[1.079s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/ament_index/resource_index/packages
+[1.079s] copying resource/cora_moveit -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/ament_index/resource_index/packages
+[1.080s] copying package.xml -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/cora_moveit
+[1.080s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/cora_moveit/launch
+[1.080s] copying launch/move.launch.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/cora_moveit/launch
+[1.080s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/cora_moveit/config
+[1.080s] copying config/servo_parameters.yaml -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/cora_moveit/config
+[1.080s] copying config/cora_moveit.yaml -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/share/cora_moveit/config
+[1.080s] running install_egg_info
+[1.093s] Copying ../build/cora_moveit/cora_moveit.egg-info to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages/cora_moveit-0.0.0-py3.12.egg-info
+[1.094s] running install_scripts
+[1.170s] Installing cora_moveit_test script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/cora_moveit
+[1.170s] Installing keyboard_servo_node script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/cora_moveit
+[1.170s] Installing moveitpy_node script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/cora_moveit
+[1.170s] writing list of installed files to '/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/install.log'
+[1.190s] Invoked command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_moveit' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_moveit/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_moveit build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_moveit/install.log --single-version-externally-managed install_data

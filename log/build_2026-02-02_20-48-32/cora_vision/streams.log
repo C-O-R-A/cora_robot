@@ -1,0 +1,21 @@
+[0.798s] Invoking command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_vision': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_vision build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/install.log --single-version-externally-managed install_data
+[0.931s] running egg_info
+[0.940s] writing ../build/cora_vision/cora_vision.egg-info/PKG-INFO
+[0.941s] writing dependency_links to ../build/cora_vision/cora_vision.egg-info/dependency_links.txt
+[0.941s] writing entry points to ../build/cora_vision/cora_vision.egg-info/entry_points.txt
+[0.941s] writing requirements to ../build/cora_vision/cora_vision.egg-info/requires.txt
+[0.941s] writing top-level names to ../build/cora_vision/cora_vision.egg-info/top_level.txt
+[0.959s] reading manifest file '../build/cora_vision/cora_vision.egg-info/SOURCES.txt'
+[0.959s] writing manifest file '../build/cora_vision/cora_vision.egg-info/SOURCES.txt'
+[0.959s] running build
+[0.960s] running build_py
+[0.960s] running install
+[0.963s] running install_lib
+[0.972s] running install_data
+[0.972s] running install_egg_info
+[0.982s] removing '/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision-0.0.0-py3.12.egg-info' (and everything under it)
+[0.982s] Copying ../build/cora_vision/cora_vision.egg-info to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision-0.0.0-py3.12.egg-info
+[0.983s] running install_scripts
+[1.051s] Installing vision_node script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/cora_vision
+[1.051s] writing list of installed files to '/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/install.log'
+[1.066s] Invoked command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_vision' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_vision build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/install.log --single-version-externally-managed install_data

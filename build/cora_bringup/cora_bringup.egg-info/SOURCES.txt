@@ -1,0 +1,15 @@
+package.xml
+setup.cfg
+setup.py
+../build/cora_bringup/cora_bringup.egg-info/PKG-INFO
+../build/cora_bringup/cora_bringup.egg-info/SOURCES.txt
+../build/cora_bringup/cora_bringup.egg-info/dependency_links.txt
+../build/cora_bringup/cora_bringup.egg-info/requires.txt
+../build/cora_bringup/cora_bringup.egg-info/top_level.txt
+../build/cora_bringup/cora_bringup.egg-info/zip-safe
+cora_bringup/__init__.py
+launch/bringup.launch.py
+resource/cora_bringup
+test/test_copyright.py
+test/test_flake8.py
+test/test_pep257.py

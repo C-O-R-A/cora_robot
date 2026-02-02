@@ -1,0 +1,40 @@
+[0.875s] Invoking command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_vision': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_vision build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/install.log --single-version-externally-managed install_data
+[1.041s] running egg_info
+[1.041s] creating ../build/cora_vision/cora_vision.egg-info
+[1.055s] writing ../build/cora_vision/cora_vision.egg-info/PKG-INFO
+[1.055s] writing dependency_links to ../build/cora_vision/cora_vision.egg-info/dependency_links.txt
+[1.056s] writing entry points to ../build/cora_vision/cora_vision.egg-info/entry_points.txt
+[1.056s] writing requirements to ../build/cora_vision/cora_vision.egg-info/requires.txt
+[1.056s] writing top-level names to ../build/cora_vision/cora_vision.egg-info/top_level.txt
+[1.056s] writing manifest file '../build/cora_vision/cora_vision.egg-info/SOURCES.txt'
+[1.083s] reading manifest file '../build/cora_vision/cora_vision.egg-info/SOURCES.txt'
+[1.083s] writing manifest file '../build/cora_vision/cora_vision.egg-info/SOURCES.txt'
+[1.084s] running build
+[1.084s] running build_py
+[1.084s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build
+[1.084s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build/lib
+[1.084s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build/lib/cora_vision
+[1.084s] copying cora_vision/aruco.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build/lib/cora_vision
+[1.084s] copying cora_vision/vision_node.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build/lib/cora_vision
+[1.084s] copying cora_vision/__init__.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build/lib/cora_vision
+[1.084s] running install
+[1.089s] running install_lib
+[1.102s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision
+[1.103s] copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build/lib/cora_vision/aruco.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision
+[1.103s] copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build/lib/cora_vision/vision_node.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision
+[1.103s] copying /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build/lib/cora_vision/__init__.py -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision
+[1.103s] byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision/aruco.py to aruco.cpython-312.pyc
+[1.104s] byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision/vision_node.py to vision_node.cpython-312.pyc
+[1.104s] byte-compiling /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision/__init__.py to __init__.cpython-312.pyc
+[1.104s] running install_data
+[1.104s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/share/ament_index
+[1.105s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/share/ament_index/resource_index
+[1.105s] creating /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/share/ament_index/resource_index/packages
+[1.105s] copying resource/cora_vision -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/share/ament_index/resource_index/packages
+[1.105s] copying package.xml -> /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/share/cora_vision
+[1.105s] running install_egg_info
+[1.118s] Copying ../build/cora_vision/cora_vision.egg-info to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages/cora_vision-0.0.0-py3.12.egg-info
+[1.119s] running install_scripts
+[1.204s] Installing vision_node script to /home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/cora_vision
+[1.205s] writing list of installed files to '/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/install.log'
+[1.220s] Invoked command in '/home/matth/Desktop/Colossus/Software/cora_robot/src/cora_vision' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/matth/Desktop/Colossus/Software/cora_robot/src/install/cora_vision/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/cora_vision build --build-base /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/build install --record /home/matth/Desktop/Colossus/Software/cora_robot/src/build/cora_vision/install.log --single-version-externally-managed install_data
