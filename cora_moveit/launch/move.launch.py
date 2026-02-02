@@ -11,6 +11,8 @@ from launch.conditions import IfCondition
 from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.substitutions import LaunchConfiguration
 from moveit_configs_utils import MoveItConfigsBuilder
+from launch.substitutions import Command, PathJoinSubstitution
+from launch_ros.substitutions import FindPackageShare
 
 
 def load_yaml(package_name, file_path):
@@ -27,46 +29,108 @@ def load_yaml(package_name, file_path):
 
 
 def generate_launch_description():
-    moveit_config = (
-        MoveItConfigsBuilder(robot_name="cora", package_name="cora_moveit_config")
-        .robot_description(file_path="config/cora.urdf.xacro")
-        .trajectory_execution(file_path="config/moveit_controllers.yaml")
-        .moveit_cpp(  # Here we select our planning pipelines config file
-            file_path=get_package_share_directory("cora_moveit")
-            + "/config/cora_moveit.yaml"
-        )
-        .to_moveit_configs()
-    )
+
+    ##############
+    # File Paths #
+    ##############
 
     # Get parameters for the Servo node
     servo_yaml = load_yaml("cora_moveit", "config/servo_parameters.yaml")
     servo_params = {"moveit_servo": servo_yaml}
 
-    # Launch arguments
-    use_servo = DeclareLaunchArgument(
-        "use_servo",
-        default_value='false',
-        description="Whether to launch servo node"
+    ####################
+    # Launch arguments #
+    ####################
+
+    declared_arguments = []
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_servo",
+            default_value="false",
+            description="Whether to launch servo node",
+        )
     )
 
-    use_moveitpy = DeclareLaunchArgument(
-        "use_moveitpy",
-        default_value='false',
-        description="Whether to launch moveitpy node",
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "use_moveitpy",
+            default_value="false",
+            description="Whether to launch moveitpy node",
+        )
     )
 
-    # hardware_arg = DeclareLaunchArgument(
-    #     'hardware',
-    #     default_value='Fake',
-    #     description='Choose hardware type: Fake or Real'
-    # )
-
-    # Select a script to run
-    moveitpy_file = DeclareLaunchArgument(
-        "executable_name",
-        default_value="moveitpy_node",
-        description="Name of executable to run",
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "hardware_type",
+            default_value="Fake",
+            description="Choose hardware type: Fake or Real",
+        )
     )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "executable_name",
+            default_value="moveitpy_node",
+            description="Name of moveitpy executable to run",
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "gripper_package",
+            default_value="None",
+            description="Path to ros2 control xacro for gripper",
+        )
+    )
+
+    ########################
+    # Launch Configuration #
+    ########################
+
+    hardware_type = LaunchConfiguration("hardware_type")
+
+    gripper_package = LaunchConfiguration("gripper_package")
+
+    #####################
+    # Robot Description #
+    #####################
+
+    robot_description_content = Command(
+        [
+            "xacro ",
+            PathJoinSubstitution(
+                [FindPackageShare("cora_moveit_config"), "config", "cora.urdf.xacro"]
+            ),
+            " hardware_type:=",
+            hardware_type,
+            " gripper_package:=",
+            gripper_package,
+        ]
+    )
+
+    robot_description = {"robot_description": robot_description_content}
+
+    #################
+    # Moveit Config #
+    #################
+
+    # Build configs WITHOUT calling robot_description() yet
+    builder = MoveItConfigsBuilder(robot_name="cora", package_name="cora_moveit_config")
+    builder.trajectory_execution(file_path="config/moveit_controllers.yaml")
+    builder.moveit_cpp(
+        file_path=get_package_share_directory("cora_moveit")
+        + "/config/cora_moveit.yaml"
+    )
+
+    # Override robot_description so it uses runtime Command(...)
+    builder.robot_description = lambda: robot_description
+
+    moveit_config = builder.to_moveit_configs()
+
+    #########
+    # Nodes #
+    #########
 
     # Create a node for the selected script
     moveit_py_node = Node(
@@ -83,7 +147,7 @@ def generate_launch_description():
         executable="servo_node",
         parameters=[
             servo_params,
-            moveit_config.robot_description,
+            robot_description,
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
         ],
@@ -105,7 +169,7 @@ def generate_launch_description():
         output="log",
         arguments=["-d", rviz_config_file],
         parameters=[
-            moveit_config.robot_description,
+            robot_description,
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
         ],
@@ -135,7 +199,7 @@ def generate_launch_description():
         executable="robot_state_publisher",
         name="robot_state_publisher",
         output="log",
-        parameters=[moveit_config.robot_description],
+        parameters=[robot_description],
     )
 
     # Ros 2 controllers config
@@ -171,10 +235,8 @@ def generate_launch_description():
         ]
 
     return LaunchDescription(
-        [
-            moveitpy_file,
-            use_servo,
-            use_moveitpy,
+        declared_arguments
+        + [
             move_group_node,
             moveit_py_node,
             servo_node,
@@ -188,3 +250,4 @@ def generate_launch_description():
 
 
 # ros2 launch cora_moveit move.launch.py use_servo:=true use_moveitpy:=true
+# ros2 launch cora_moveit move.launch.py use_servo:=true use_moveitpy:=true gripper_path:='grippers/gripper_1/cora_ggripper_1.urdf.xacro
