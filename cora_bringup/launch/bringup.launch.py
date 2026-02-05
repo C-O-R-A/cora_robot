@@ -52,7 +52,9 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            "gripper_package", default_value="None", description="Path to gripper xacro"
+            "gripper_package",
+            default_value="None",
+            description="Name of gripper description package",
         )
     )
 
@@ -98,14 +100,12 @@ def generate_launch_description():
         }.items(),
     )
 
-    
     # Only start CoDi after MoveIt launch finishes initialization
     codi_after_moveit = TimerAction(period=30.0, actions=[codi_node])
 
     return LaunchDescription(
         declared_arguments
-        +
-        [
+        + [
             moveit_launch,
             codi_after_moveit,
         ]

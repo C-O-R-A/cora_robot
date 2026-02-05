@@ -1,2 +1,0 @@
-[console_scripts]
-vision_node = cora_vision.vision_node:main

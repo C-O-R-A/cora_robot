@@ -1,4 +1,0 @@
-action/PoseGoal.action
-action/PoseGoal.idl
-msg/TargetedPoseStamped.idl
-msg/TargetedPoseStamped.msg

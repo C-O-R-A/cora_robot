@@ -15,6 +15,7 @@ cd .. && colcon build --symlink-install
 source /opt/ros/jazzy/setup.bash
 echo "source /opt/ros/jazzy/setup.bash" >> ./bashrc
 source /install/setup.bash
+echo "source /install/setup.bash" >> ./bashrc
 export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
 set -e

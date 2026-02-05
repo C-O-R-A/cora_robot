@@ -6,6 +6,8 @@ It assumes that the ODrive is already configured and calibrated (see [docs](http
 
 **This is a work in progress** (see **Features**).
 
+>This package is only compatible with ODrive v3.6. It is a modified version of the official odrive ros2 control package which is only compatible with ODrive S1/Pro.
+
 ## Usage
 
 For a high level usage example, see the [BotWheel Explorer ROS2 Package](../odrive_botwheel_explorer/README.md).

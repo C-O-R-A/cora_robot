@@ -28,6 +28,8 @@ class CodiNode(Node):
     # TODO: Add lifecycle management to this node
     # TODO: Add dynamic reconfigure for parameters
     # TODO: Add new predefined pose fucntionality using MoveitPy and srdf
+    # TODO: return states for frames defined after 
+    # configuration, aka Client asks for state feedback for 'Camera' and 'Gripper'
     def __init__(self):
         super().__init__("codi_node")
 
@@ -89,9 +91,7 @@ class CodiNode(Node):
         self.use_vision = False
         self.use_camera = False
         self.use_controller = False
-        self.apply_config(self.use_camera,
-                          self.use_vision,
-                          self.use_controller)
+        self.apply_config(self.use_camera, self.use_vision, self.use_controller)
 
         # for c in [self.vision_client, self.camera_client, self.controller_client]:
         #     c.wait_for_service()
@@ -115,7 +115,7 @@ class CodiNode(Node):
                 "Lifecycle service unavailable. skipping deactivation"
             )
 
-    def apply_config(self, config):
+    def apply_config(self, config: tuple):
         self.use_vision, self.use_camera, self.use_controller = config
         for item in [
             ("vision", self.vision_client, self.use_vision),
@@ -232,11 +232,20 @@ class CodiNode(Node):
                             interface_methods = {
                                 "position": [self.construct_pose_msg, pose_msg],
                                 "velocity": [self.construct_twist_msg, twist_msg],
-                                "acceleration": [self.construct_twist_from_accel, twist_msg],
+                                "acceleration": [
+                                    self.construct_twist_from_accel,
+                                    twist_msg,
+                                ],
                             }
 
-                            if interface_type in ("position", "velocity", "acceleration"):
-                                interface_methods[interface_type][0](pose_command, interface_methods[interface_type][1])
+                            if interface_type in (
+                                "position",
+                                "velocity",
+                                "acceleration",
+                            ):
+                                interface_methods[interface_type][0](
+                                    pose_command, interface_methods[interface_type][1]
+                                )
                             else:
                                 raise ValueError(
                                     f"Unsupported interface type specified: {interface_type}"
@@ -339,34 +348,22 @@ class CodiNode(Node):
             self.switch_command_type("TWIST")
             self.current_servo_mode = "TWIST"
         self.publish_twist = True
-        self.rt_vel[0, 0] += (
-                                    pose_command[0, 0] * self.timer_period
-                                )
+        self.rt_vel[0, 0] += pose_command[0, 0] * self.timer_period
         msg.twist.linear.x = self.rt_vel[0, 0]
 
-        self.rt_vel[0, 1] += (
-                                    pose_command[0, 1] * self.timer_period
-                                )
+        self.rt_vel[0, 1] += pose_command[0, 1] * self.timer_period
         msg.twist.linear.y = self.rt_vel[0, 1]
 
-        self.rt_vel[0, 2] += (
-                                    pose_command[0, 2] * self.timer_period
-                                )
+        self.rt_vel[0, 2] += pose_command[0, 2] * self.timer_period
         msg.twist.linear.z = self.rt_vel[0, 2]
 
-        self.rt_vel[1, 0] += (
-                                    pose_command[1, 0] * self.timer_period
-                                )
+        self.rt_vel[1, 0] += pose_command[1, 0] * self.timer_period
         msg.twist.angular.x = self.rt_vel[1, 0]
 
-        self.rt_vel[1, 1] += (
-                                    pose_command[1, 1] * self.timer_period
-                                )
+        self.rt_vel[1, 1] += pose_command[1, 1] * self.timer_period
         msg.twist.angular.y = self.rt_vel[1, 1]
 
-        self.rt_vel[1, 2] += (
-                                    pose_command[1, 2] * self.timer_period
-                                )
+        self.rt_vel[1, 2] += pose_command[1, 2] * self.timer_period
         msg.twist.angular.z = self.rt_vel[1, 2]
 
     def construct_twist_msg(self, pose_command, msg):

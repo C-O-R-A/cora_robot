@@ -1,9 +1,0 @@
-<library path="odrive_ros2_control_plugin">
-  <class name="odrive_ros2_control_plugin/odriveHardwareInterface"
-         type="odrive_ros2_control::odriveHardwareInterface"
-         base_class_type="hardware_interface::SystemInterface">
-    <description>
-      odrive plugin for ros2_control.
-    </description>
-  </class>
-</library>
