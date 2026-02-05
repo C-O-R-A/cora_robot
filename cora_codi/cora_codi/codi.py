@@ -28,7 +28,8 @@ class CodiNode(Node):
     # TODO: Add lifecycle management to this node
     # TODO: Add dynamic reconfigure for parameters
     # TODO: Add new predefined pose fucntionality using MoveitPy and srdf
-    # TODO: return states for frames defined after 
+    # TODO: return states for frames defined after
+    # TODO: ADD Gripper command
     # configuration, aka Client asks for state feedback for 'Camera' and 'Gripper'
     def __init__(self):
         super().__init__("codi_node")
@@ -54,10 +55,6 @@ class CodiNode(Node):
         self.tf_listener = TransformListener(self.tf_buffer, self)
         self.timer = self.create_timer(self.timer_period, self.transforms_callback)
 
-        # # Use gripper param
-        # self.declare_parameter('use_gripper', True)
-        # self.use_gripper = self.get_parameter('use_gripper').value
-
         # Pose goal action for preplanned goal
         self.pose_timer = self.create_timer(self.timer_period, self.pose_timer_callback)
         self.pose_action_client = ActionClient(self, PoseGoal, "posegoal")
@@ -78,7 +75,7 @@ class CodiNode(Node):
         self.rt_vel = np.zeros((2, 3))
         self.current_servo_mode = None
 
-        # Lifecycle Node clients
+        # Lifecycle Node clients and Config
         self.vision_client = self.create_client(
             ChangeState, "/vision_node/change_state"
         )
@@ -88,14 +85,18 @@ class CodiNode(Node):
         self.controller_client = self.create_client(
             ChangeState, "/controller_node/change_state"
         )
-        self.use_vision = False
-        self.use_camera = False
-        self.use_controller = False
-        self.apply_config(self.use_camera, self.use_vision, self.use_controller)
+
+        self.config = {
+            "vision": {"value": False, "node": self.vision_client},
+            "camera": {"value": False, "node": self.camera_client},
+            "controller": {"value": False, "node": self.controller_client},
+        }
+
+        self.apply_config()
 
         # for c in [self.vision_client, self.camera_client, self.controller_client]:
         #     c.wait_for_service()
-        # self.create_timer(0.5, self.config_callback)
+        self.create_timer(0.5, self.config_callback)
 
     def activate_node(self, client):
         if client.service_is_ready():
@@ -115,20 +116,17 @@ class CodiNode(Node):
                 "Lifecycle service unavailable. skipping deactivation"
             )
 
-    def apply_config(self, config: tuple):
-        self.use_vision, self.use_camera, self.use_controller = config
-        for item in [
-            ("vision", self.vision_client, self.use_vision),
-            ("camera", self.camera_client, self.use_camera),
-            ("controller", self.controller_client, self.use_controller),
-        ]:
-            name, client, use_node = item
+    def apply_config(self):
+        for name, cfg in self.config.items():
+            use_node = cfg["value"]
+            node = cfg["node"]
+
             if use_node:
                 self.get_logger().info(f"Activating {name} node")
-                self.activate_node(client)
+                self.activate_node(node)
             else:
                 self.get_logger().info(f"Deactivating {name} node")
-                self.deactivate_node(client)
+                self.deactivate_node(node)
 
     def transform_to_array(self, tf: TransformStamped):
         t = tf.transform.translation
@@ -272,6 +270,8 @@ class CodiNode(Node):
                     joint_msg.header.stamp = self.get_clock().now().to_msg()
                     joint_msg.header.frame_id = "base_link"
                     self.joint_pub.publish(joint_msg)
+
+                self.last_command = None
 
                 return
 
@@ -419,7 +419,20 @@ class CodiNode(Node):
 
     def config_callback(self):
         config = self.codi_server.get_config()
-        self.apply_config(config)
+
+        if config != (
+            self.config["controller"]["value"],
+            self.config["camera"]["value"],
+            self.config["vision"]["value"],
+        ):
+            self.get_logger().info(f"Configuration changed to{config}")
+            (
+                self.config["controller"]["value"],
+                self.config["camera"]["value"],
+                self.config["vision"]["value"],
+            ) = config
+
+            self.apply_config()
 
     def switch_command_type(self, cmd_type: str):
         if not self.switch_input_client.wait_for_service(timeout_sec=1.0):

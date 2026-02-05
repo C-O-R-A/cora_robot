@@ -112,4 +112,4 @@ def generate_launch_description():
     )
 
 
-# ros2 launch cora_bringup bringup.launch.py use_codi:=true hardware:="Fake" gripper_path:='grippers/gripper_1/cora_gripper_1.urdf.xacro
+# ros2 launch cora_bringup bringup.launch.py use_codi:=true hardware:="Fake" gripper_package:='cora_gripper_1_description'
