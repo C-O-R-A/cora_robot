@@ -25,12 +25,8 @@ CONFIG = HERE.parent / "config" / "server_params.yaml"
 
 
 class CodiNode(Node):
-    # TODO: Add lifecycle management to this node
-    # TODO: Add dynamic reconfigure for parameters
     # TODO: Add new predefined pose fucntionality using MoveitPy and srdf
-    # TODO: return states for frames defined after
     # TODO: ADD Gripper command
-    # configuration, aka Client asks for state feedback for 'Camera' and 'Gripper'
     def __init__(self):
         super().__init__("codi_node")
 
@@ -188,10 +184,14 @@ class CodiNode(Node):
                 # Moveit Servo is kept separate
                 # due to its real-time requirements
                 # Ros2 actions are not real-time safe
+
                 twist_msg = TwistStamped()
                 joint_msg = JointJog()
                 pose_msg = PoseStamped()
+                gripper_msg = JointJog()
+
                 joint_msg.joint_names = [f"J{i}" for i in range(1, 7)]
+
                 # joint_msg.displacements = [0.0] * len(joint_msg.joint_names) # not yet supported
                 joint_msg.velocities = [0.0] * len(joint_msg.joint_names)
 
@@ -200,6 +200,13 @@ class CodiNode(Node):
                 self.publish_joint = False
 
                 try:
+                    # ------------------------- #
+                    # Construct gripper message #
+                    # ------------------------- #
+
+                    # ----------------------- #
+                    # Construct Robot message #
+                    # ----------------------- #
                     match space:
                         case "JS":
                             if self.current_servo_mode != "JOINT_JOG":
@@ -216,13 +223,9 @@ class CodiNode(Node):
                                     interface_methods["velocity"][i] += (
                                         pose_command[i] * self.timer_period
                                     )
-                                elif interface_type in ("position", "velocity"):
-                                    interface_methods[interface_type][i] = pose_command[
-                                        i
-                                    ]
                                 else:
-                                    raise ValueError(
-                                        f"Unsupported interface type specified: {interface_type}"
+                                    interface_methods[interface_type][i] = (
+                                        pose_command[i]
                                     )
                             pass
 
@@ -244,30 +247,31 @@ class CodiNode(Node):
                                 interface_methods[interface_type][0](
                                     pose_command, interface_methods[interface_type][1]
                                 )
-                            else:
-                                raise ValueError(
-                                    f"Unsupported interface type specified: {interface_type}"
-                                )
                             pass
-                        case _:
-                            raise ValueError(
-                                f"Unsupported planning space specified: {space}"
-                            )
+                        
                 except Exception as e:
                     self.get_logger().info(f"Error: {e}")
 
+                timestamp = self.get_clock().now().to_msg()
+
+                if gripper_command is not None:
+                    gripper_msg.header.stamp = timestamp
+                    gripper_msg.header.frame_id = 'Gripper'
+                    gripper_msg.joint_names = ['Finger1']
+                    gripper_msg.velocities = [gripper_command]
+
                 if self.publish_pose:
-                    pose_msg.header.stamp = self.get_clock().now().to_msg()
+                    pose_msg.header.stamp = timestamp
                     pose_msg.header.frame_id = "base_link"
                     self.pose_pub.publish(pose_msg)
 
-                if self.publish_twist:
-                    twist_msg.header.stamp = self.get_clock().now().to_msg()
+                elif self.publish_twist:
+                    twist_msg.header.stamp = timestamp
                     twist_msg.header.frame_id = "base_link"
                     self.twist_pub.publish(twist_msg)
 
-                if self.publish_joint:
-                    joint_msg.header.stamp = self.get_clock().now().to_msg()
+                elif self.publish_joint:
+                    joint_msg.header.stamp = timestamp
                     joint_msg.header.frame_id = "base_link"
                     self.joint_pub.publish(joint_msg)
 
@@ -282,48 +286,50 @@ class CodiNode(Node):
                     )
 
                     goal = PoseGoal.Goal()
+                    goal.interface_type = interface_type
 
-                    # fill predefined pose
+                    if gripper_command is not None:
+                        goal.gripper_goal = gripper_command
+
+                    # Fill predefined pose field
                     if predef_pose:
                         goal.predefined_pose = predef_pose
 
-                    match space:
-                        case "TS":
-                            # Fill TargetedPoseStamped
-                            #  NOTE (if the space is ts, pose_command was send as [[x, y, z, 1],[rx, ry, rz, w]])
-                            goal.pose_goal.target_frame = target
+                    # If no predefined pose is specified, fill the rest of the message
+                    else:
+                        goal.space = space
+                        match space:
+                            case "TS":
+                                # Fill TargetedPoseStamped
+                                #  NOTE (if the space is ts, pose_command was sent as [[x, y, z, 1],[rx, ry, rz, w]])
+                                goal.pose_goal.target_frame = target
 
-                            goal.pose_goal.pose.header.frame_id = "base_link"
-                            goal.pose_goal.pose.header.stamp = (
-                                self.get_clock().now().to_msg()
-                            )
+                                goal.pose_goal.pose.header.frame_id = "base_link"
+                                goal.pose_goal.pose.header.stamp = (
+                                    self.get_clock().now().to_msg()
+                                )
 
-                            goal.pose_goal.pose.pose.position.x = pose_command[0, 0]
-                            goal.pose_goal.pose.pose.position.y = pose_command[0, 1]
-                            goal.pose_goal.pose.pose.position.z = pose_command[0, 2]
+                                goal.pose_goal.pose.pose.position.x = pose_command[0, 0]
+                                goal.pose_goal.pose.pose.position.y = pose_command[0, 1]
+                                goal.pose_goal.pose.pose.position.z = pose_command[0, 2]
 
-                            goal.pose_goal.pose.pose.orientation.x = pose_command[1, 0]
-                            goal.pose_goal.pose.pose.orientation.y = pose_command[1, 1]
-                            goal.pose_goal.pose.pose.orientation.z = pose_command[1, 2]
-                            goal.pose_goal.pose.pose.orientation.w = pose_command[1, 3]
-                            pass
+                                goal.pose_goal.pose.pose.orientation.x = pose_command[1, 0]
+                                goal.pose_goal.pose.pose.orientation.y = pose_command[1, 1]
+                                goal.pose_goal.pose.pose.orientation.z = pose_command[1, 2]
+                                goal.pose_goal.pose.pose.orientation.w = pose_command[1, 3]
+                                pass
 
-                        case "JS":
-                            # Fill Joint Goal
-                            # NOTE ( if the space is js, pose_command was sent as [J1, J2, J3, ...] )
-                            goal.joint_goal = pose_command.tolist()
-                            pass
+                            case "JS":
+                                # Fill Joint Goal
+                                # NOTE ( if the space is js, pose_command was sent as [J1, J2, J3, ...] )
+                                goal.joint_goal = pose_command.tolist()
+                                pass
 
-                        case _:
-                            raise ValueError(
-                                f'Unsupported planning space requested,\
-                                expected "JS" or "TS" but got: {space}'
-                            )
-
-                    # additional
-                    goal.space = space
-                    goal.interface_type = interface_type
-                    # goal.gripper_goal = gripper_command
+                            case _:
+                                raise ValueError(
+                                    f'Unsupported planning space requested,\
+                                    expected "JS" or "TS" but got: {space}'
+                                )
 
                     self.get_logger().info("Waiting for action server...")
                     self.pose_action_client.wait_for_server()
@@ -472,6 +478,6 @@ if __name__ == "__main__":
 
 # ├── moveitpy_node          (Action Client Node)
 # ├── vision_node            (LifecycleNode)
-# ├── camera_node            (LifecycleNode)_-___---_-_-_____-----
+# ├── camera_node            (LifecycleNode)
 # ├── teleop_node            (LifecycleNode)
 # └── lifecycle_manager_node (or logic inside cora_comms)

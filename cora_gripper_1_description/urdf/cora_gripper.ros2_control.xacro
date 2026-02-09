@@ -24,6 +24,7 @@
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['Finger1']}</param>
                 </state_interface>
+                <state_interface name="position"/>
                 <state_interface name="velocity"/>
                 <param name="node_id">6</param>
             </joint>

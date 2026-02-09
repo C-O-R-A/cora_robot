@@ -9,7 +9,7 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
 from launch.actions import DeclareLaunchArgument, ExecuteProcess
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from moveit_configs_utils import MoveItConfigsBuilder
 from launch.substitutions import Command, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
@@ -36,7 +36,9 @@ def generate_launch_description():
 
     # Get parameters for the Servo node
     servo_yaml = load_yaml("cora_moveit", "config/servo_parameters.yaml")
+    gripper_servo_yaml = load_yaml("cora_moveit", "config/gripper_servo_parameters.yaml")
     servo_params = {"moveit_servo": servo_yaml}
+    gripper_servo_params = {"moveit_servo": gripper_servo_yaml}
 
     ####################
     # Launch arguments #
@@ -91,6 +93,16 @@ def generate_launch_description():
     hardware_type = LaunchConfiguration("hardware_type")
 
     gripper_package = LaunchConfiguration("gripper_package")
+
+    servo_condition = IfCondition(LaunchConfiguration("use_servo"))
+
+    gripper_servo_condition = IfCondition(
+        PythonExpression([
+            "'", LaunchConfiguration("use_servo"), "' == 'true' and '",
+            LaunchConfiguration("gripper_package"), "' != 'None'"
+        ])
+    )
+
 
     #####################
     # Robot Description #
@@ -152,7 +164,20 @@ def generate_launch_description():
             moveit_config.robot_description_kinematics,
         ],
         output="screen",
-        condition=IfCondition(LaunchConfiguration("use_servo")),
+        condition=servo_condition,
+    )
+
+    gripper_servo_node = Node(
+    package="moveit_servo",
+    executable="servo_node",
+    parameters=[
+        gripper_servo_params,
+        robot_description,
+        moveit_config.robot_description_semantic,
+        moveit_config.robot_description_kinematics,
+    ],
+    output="screen",
+    condition=gripper_servo_condition,
     )
 
     # Rviz config
@@ -224,6 +249,7 @@ def generate_launch_description():
     for controller in [
         "arm_controller",
         "gripper_fingers_controller",
+        "realtime_gripper_fingers_controller",
         "joint_state_broadcaster",
     ]:
         load_controllers += [

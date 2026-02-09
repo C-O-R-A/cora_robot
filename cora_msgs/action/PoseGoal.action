@@ -27,6 +27,7 @@
 # Goal
 cora_msgs/TargetedPoseStamped pose_goal     
 float64[] joint_goal                    # [J1, J2, J3, J4, J5, J6]
+float64 gripper_goal                    # gripper goal pose
 string predefined_pose                  # 'standby' or 'straight', see srdf for more details
 string space                            # 'TS' or 'JS'
 string interface_type                   # 'position' or 'velocity' or 'acceleration' or 'effort'
