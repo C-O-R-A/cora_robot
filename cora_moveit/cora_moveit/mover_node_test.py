@@ -101,6 +101,7 @@ def main():
 
     # randomize the robot state
     robot_state.set_to_random_positions()
+    robot_state.joint_positions["Finger1"] = 0.0
 
     # set plan start state to current state
     cora_arm.set_start_state_to_current_state()

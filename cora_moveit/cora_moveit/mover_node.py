@@ -89,12 +89,20 @@ class MoverNodeServer(Node):
 
             self.cora_arm.set_start_state_to_current_state()
 
+            if gripper_goal is not None:
+                    self.cora_gripper.set_start_state_to_current_state()
+                    self.robot_state.joint_positions["Finger1"] = gripper_goal
+
+                    # set_goal_state with a RobotState is safer for simple goals
+                    # and avoids potential lifetime issues in bindings.
+                    self.cora_gripper.set_goal_state(robot_state=self.robot_state)
+
             # Selecting a predefined pose takes precidence over any other goals
             if goal_handle.request.predefined_pose:
-                self.get_logger().info(
-                    f"Using predefined pose: {goal_handle.request.predefined_pose.strip().lower()}"
-                )
                 predefined_pose = goal_handle.request.predefined_pose.strip().lower()
+                self.get_logger().info(
+                    f"Using predefined pose: {predefined_pose}"
+                )
                 self.cora_arm.set_goal_state(configuration_name=predefined_pose)
 
             # If no predefined pose is specified, proceed to set goal based on space
@@ -112,8 +120,9 @@ class MoverNodeServer(Node):
 
                             # Set goal state
                             self.cora_arm.set_goal_state(
-                                pose_stamped_msg=pose_goal, pose_link=target
-                            )
+                                pose_stamped_msg=pose_goal, 
+                                pose_link=target,
+                                )
 
                     except ValueError as e:
                         self.get_logger().error(e + "Cancelling motion plan request...")
@@ -153,35 +162,11 @@ class MoverNodeServer(Node):
             if plan_result:
                 self.get_logger().info("Executing plan")
                 robot_trajectory = plan_result.trajectory
-                self.cora.execute(robot_trajectory, controllers=["arm_controller"])
+                self.cora.execute(robot_trajectory, controllers=["arm_controller", 'gripper_fingers_controller'])
             else:
                 self.get_logger().error("Planning failed")
                 return PoseGoal.Result()
 
-            if gripper_goal is not None:
-                self.cora_gripper.set_start_state_to_current_state()
-                self.robot_state.set_joint_group_positions(
-                    "gripper_fingers",
-                    np.array([gripper_goal])
-                )
-                gripper_constraint = construct_joint_constraint(
-                                            robot_state=self.robot_state,
-                                            joint_model_group=self.robot_model.get_joint_model_group("gripper_fingers"),
-                                        )
-                self.cora_gripper.set_goal_state(
-                    motion_plan_constraints=gripper_constraint
-                )
-            
-                self.get_logger().info("Planning gripper trajectory")
-                gripper_plan_result = self.cora_gripper.plan()
-
-                if gripper_plan_result:
-                    self.get_logger().info("Executing gripper plan")
-                    gripper_robot_trajectory = gripper_plan_result.trajectory
-                    self.cora.execute(gripper_robot_trajectory, controllers=["gripper_fingers_controller"])
-                else:
-                    self.get_logger().error("Gripper planning failed")
-                    return PoseGoal.Result()
     
             goal_handle.succeed()
 
