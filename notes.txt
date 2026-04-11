@@ -1,0 +1,12 @@
+start_liveplotter(
+    [
+        odrv0.vbus_voltage, odrv0.axis0.encoder.pos_estimate, odrv0.axis0.motor.current_control.Ibus, odrv0.axis0.motor.current_control.Iq_measured
+    ]
+)
+
+odrivetool backup-config sensorless_config.json
+odrivetool restore-config sensorless_config.json
+
+dump_errors(odrv0)
+odrv0.axis0.clear_errors()
+odrv0.save_configuration()
