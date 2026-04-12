@@ -8,10 +8,6 @@ It assumes that the ODrive is already configured and calibrated (see [docs](http
 
 >This package is only compatible with ODrive v3.6. It is a modified version of the official odrive ros2 control package which is only compatible with ODrive S1/Pro.
 
-## Usage
-
-For a high level usage example, see the [BotWheel Explorer ROS2 Package](../odrive_botwheel_explorer/README.md).
-
 ## Features
 
 - Communicates over Linux SocketCAN
@@ -25,7 +21,6 @@ For a high level usage example, see the [BotWheel Explorer ROS2 Package](../odri
 **TODO:**
 
 - Error feedback & error handling: If an ODrive disarms for some reason (e.g. undervoltage), the application that connects to ros2_control will currently not be notified.
-- Other telemetry: Additional data like temperatures, DC voltage, etc. are currently not propagated through ros2_control up to the application.
 - Reduction ratio's, in ros2 control xacro or urdf?
 
 

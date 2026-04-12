@@ -1,11 +1,11 @@
-start_liveplotter(
-    [
-        odrv0.vbus_voltage, odrv0.axis0.encoder.pos_estimate, odrv0.axis0.motor.current_control.Ibus, odrv0.axis0.motor.current_control.Iq_measured
-    ]
-)
+ start_liveplotter(properties=[
+       odrv0.axis0.encoder._pos_estimate_property,
+       odrv0.axis0.motor.current_control._Ibus_property,
+       odrv0.axis0.motor.current_control._Iq_measured_property
+   ])
 
-odrivetool backup-config sensorless_config.json
-odrivetool restore-config sensorless_config.json
+odrivetool backup-config closed_loop_6354.json
+odrivetool restore-config closed_loop_6354.json
 
 dump_errors(odrv0)
 odrv0.axis0.clear_errors()
