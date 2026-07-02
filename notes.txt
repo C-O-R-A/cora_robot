@@ -4,9 +4,12 @@
        odrv0.axis0.motor.current_control._Iq_measured_property
    ])
 
-odrivetool backup-config closed_loop_6354.json
+
 odrivetool restore-config closed_loop_6354.json
 
 dump_errors(odrv0)
 odrv0.axis0.clear_errors()
 odrv0.save_configuration()
+
+    odrv0.save_configuration()
+    odrv0.reboot()
