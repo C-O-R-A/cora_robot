@@ -36,11 +36,6 @@ sudo apt install -y \
   ros-${ROS_DISTRO}-moveit \
   ros-${ROS_DISTRO}-moveit-py \
   ros-${ROS_DISTRO}-moveit-servo \
-  ros-${ROS_DISTRO}-gazebo-ros-pkgs \
-  ros-${ROS_DISTRO}-gz-ros2-control \
-  ros-${ROS_DISTRO}-gz-ros2-control-plugins \
-  ros-${ROS_DISTRO}-gz-ros2-control-msgs \
-  ros-${ROS_DISTRO}-ros-gz
 
 sudo apt upgrade -y
 
