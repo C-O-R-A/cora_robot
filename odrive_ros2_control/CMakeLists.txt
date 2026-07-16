@@ -37,4 +37,12 @@ install(TARGETS odrive_ros2_control_plugin
   RUNTIME DESTINATION bin
 )
 
+install(DIRECTORY config 
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
 ament_package()
