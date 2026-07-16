@@ -11,9 +11,9 @@ Replaces the manual odrivetool session:
     6. reconnect, clear errors, restart clean
 
 Usage:
-    python3 setup_odrive.py closed_loop_6354.json
-    python3 setup_odrive.py closed_loop_5065.json --axis 0
-    python3 setup_odrive.py closed_loop_6354.json --serial-number 336436543334
+    python3 quicksetup.py configs/closed_loop_6354.json
+    python3 quicksetup.py configs/closed_loop_5065.json --axis 0
+    python3 quicksetup.py configs/closed_loop_6354.json --serial-number 336436543334
 """
 import argparse
 import subprocess
@@ -64,14 +64,17 @@ def main():
     parser.add_argument("config", help="Path to config json (e.g. closed_loop_6354.json)")
     parser.add_argument("--axis", type=int, choices=[0, 1], default=0, help="Axis to calibrate (default: 0)")
     parser.add_argument("--serial-number", help="Target a specific ODrive — required if more than one board is plugged in at once")
+    parser.add_argument("--max-attempts", type=int, default=10, help="Give up after this many failed calibration attempts (default: 10)")
     args = parser.parse_args()
 
     print("Connecting for initial cleanup...")
     odrv = odrive.find_any(serial_number=args.serial_number) if args.serial_number else odrive.find_any()
     print(f"Connected to {odrv.serial_number:012X}")
 
+    axis = getattr(odrv, f"axis{args.axis}")
+
     print("Clearing any existing errors...")
-    odrv.axis0.clear_errors()
+    axis.clear_errors()
 
     print("Restarting board (clean boot before restore)...")
     try:
@@ -93,8 +96,24 @@ def main():
     print("Connecting...")
     odrv = odrive.find_any(serial_number=args.serial_number) if args.serial_number else odrive.find_any()
     print(f"Connected to {odrv.serial_number:012X}")
+    axis = getattr(odrv, f"axis{args.axis}")  # re-fetch — odrv is a new connection object
 
-    run_calibration(odrv, args.axis)
+    print(f"vbus_voltage before calibration: {odrv.vbus_voltage:.2f}V")
+
+    for attempt in range(1, args.max_attempts + 1):
+        print(f"Calibration attempt {attempt}/{args.max_attempts}...")
+        try:
+            run_calibration(odrv, args.axis)
+            break  # success — fall through to save/reboot below
+        except RuntimeError as e:
+            print(f"  attempt {attempt} failed: {e}")
+            axis.clear_errors()
+            time.sleep(1.0)
+    else:
+        raise RuntimeError(
+            f"Calibration did not succeed after {args.max_attempts} attempts — "
+            "stopping rather than retrying forever. Check hardware before trying again."
+        )
 
     print("Saving configuration (device will reboot)...")
     try:
@@ -108,7 +127,7 @@ def main():
 
     print("Reconnecting to clear errors...")
     odrv = reconnect(args.serial_number)
-    odrv.axis0.clear_errors()
+    getattr(odrv, f"axis{args.axis}").clear_errors()
 
     print("Restarting board...")
     try:

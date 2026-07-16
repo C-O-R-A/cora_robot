@@ -101,8 +101,13 @@ struct Axis {
 
         can_intf_->send_can_frame(frame);
     }
-};
 
+    void request_encoder_estimates() const {
+        struct can_frame frame;
+        frame.can_id = node_id_ << 5 | Get_Encoder_Estimates_msg_t::cmd_id;
+        frame.can_dlc = 0;
+        can_intf_->send_can_frame(frame);
+    }
 } // namespace odrive_ros2_control
 
 using namespace odrive_ros2_control;
@@ -282,6 +287,7 @@ return_type ODriveHardwareInterface::read(const rclcpp::Time& timestamp, const r
 return_type ODriveHardwareInterface::write(const rclcpp::Time&, const rclcpp::Duration&) {
     for (auto& axis : axes_) {
         // Send the CAN message that fits the set of enabled input types
+        axis.request_encoder_estimates();
         if (axis.pos_input_enabled_) {
             Set_Input_Pos_msg_t msg;
             msg.Input_Pos = axis.pos_setpoint_ / (2 * M_PI);
