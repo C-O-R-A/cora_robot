@@ -11,9 +11,8 @@ Replaces the manual odrivetool session:
     6. reconnect, clear errors, restart clean
 
 Usage:
-    python3 quicksetup.py configs/closed_loop_6354.json
+    python3 quicksetup.py configs/closed_loop_6354.json --axis 0
     python3 quicksetup.py configs/closed_loop_5065.json --axis 0
-    python3 quicksetup.py configs/closed_loop_6354.json --serial-number 336436543334
 """
 import argparse
 import subprocess
@@ -48,6 +47,40 @@ def run_calibration(odrv, axis_num):
     axis.encoder.config.pre_calibrated = True
 
 
+def run_anticogging_calibration(odrv, axis_num, timeout=180):
+    axis = getattr(odrv, f"axis{axis_num}")
+
+    print(f"[axis{axis_num}] Entering closed loop control for anticogging calibration...")
+    axis.requested_state = enums.AxisState.CLOSED_LOOP_CONTROL
+    time.sleep(0.3)
+    if axis.current_state != enums.AxisState.CLOSED_LOOP_CONTROL:
+        dump_errors(odrv)
+        raise RuntimeError(f"axis{axis_num} failed to enter closed loop control for anticogging calibration")
+
+    print(f"[axis{axis_num}] Starting anticogging calibration (axis will spin slowly)...")
+    axis.controller.start_anticogging_calibration()
+    time.sleep(0.3)  # let calib_anticogging flip True before we start polling for it going False
+
+    start = time.time()
+    
+    while not axis.controller.config.anticogging.calib_anticogging:
+        print("waiting to calibrate anticogging...")
+        time.sleep(1)
+    
+    while axis.controller.config.anticogging.calib_anticogging:
+        if axis.error != 0 or axis.motor.error != 0 or axis.controller.error != 0:
+            dump_errors(odrv)
+            raise RuntimeError(f"axis{axis_num} anticogging calibration failed — see errors above")
+        if time.time() - start > timeout:
+            raise TimeoutError(f"axis{axis_num} anticogging calibration did not finish within {timeout}s")
+        time.sleep(0.2)
+
+    axis.requested_state = enums.AxisState.IDLE
+
+    print(f"[axis{axis_num}] Anticogging calibration OK, setting pre_calibrated flag")
+    axis.controller.config.anticogging.pre_calibrated = True
+
+
 def reconnect(serial_number, timeout=15):
     start = time.time()
     while True:
@@ -65,6 +98,9 @@ def main():
     parser.add_argument("--axis", type=int, choices=[0, 1], default=0, help="Axis to calibrate (default: 0)")
     parser.add_argument("--serial-number", help="Target a specific ODrive — required if more than one board is plugged in at once")
     parser.add_argument("--max-attempts", type=int, default=10, help="Give up after this many failed calibration attempts (default: 10)")
+    parser.add_argument("--no-anticogging", dest="anticogging", action="store_false",
+                         help="Skip anticogging calibration (runs by default after motor/encoder calibration succeeds)")
+    parser.set_defaults(anticogging=False)
     args = parser.parse_args()
 
     print("Connecting for initial cleanup...")
@@ -93,6 +129,17 @@ def main():
     subprocess.run(restore_cmd, check=True)
     time.sleep(3)  # restore-config triggers its own reboot; let it come back up
 
+    # print("Connect Motor...")
+    # while True:
+    #     motor_connected_flag = input("motor connected? (y/n)")
+    #     match motor_connected_flag:
+    #         case "y":
+    #             break
+    #         case "n":
+    #             continue
+    #         case _:
+    #             print("answer 'y' when connected")
+
     print("Connecting...")
     odrv = odrive.find_any(serial_number=args.serial_number) if args.serial_number else odrive.find_any()
     print(f"Connected to {odrv.serial_number:012X}")
@@ -114,6 +161,9 @@ def main():
             f"Calibration did not succeed after {args.max_attempts} attempts — "
             "stopping rather than retrying forever. Check hardware before trying again."
         )
+
+    if args.anticogging:
+        run_anticogging_calibration(odrv, args.axis)
 
     print("Saving configuration (device will reboot)...")
     try:
