@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
 test_axis.py — Quick sanity check for a calibrated ODrive axis.
+#!/usr/bin/env python3
+"""
+test_axis.py — Quick sanity check for a calibrated ODrive axis.
 
 Restarts the board for a clean state, checks for existing errors, enters
 closed loop control, runs either a position step-and-back or a velocity
@@ -118,6 +121,9 @@ def main():
     print("Connecting...")
     odrv = odrive.find_any(serial_number=args.serial_number) if args.serial_number else odrive.find_any()
     print(f"Connected to {odrv.serial_number:012X}")
+    print("Connecting...")
+    odrv = odrive.find_any(serial_number=args.serial_number) if args.serial_number else odrive.find_any()
+    print(f"Connected to {odrv.serial_number:012X}")
 
     if args.restart:
         print("Restarting board for a clean state before testing...")
@@ -147,12 +153,22 @@ def main():
 
     if not axis.motor.config.pre_calibrated or not axis.encoder.config.pre_calibrated:
         print("WARNING: axis is not marked pre_calibrated — proceeding anyway, but this may run calibration on entry.")
+    if not axis.motor.config.pre_calibrated or not axis.encoder.config.pre_calibrated:
+        print("WARNING: axis is not marked pre_calibrated — proceeding anyway, but this may run calibration on entry.")
 
     original_current_lim = axis.motor.config.current_lim
     if args.current_limit is not None:
         print(f"Temporarily setting current_lim to {args.current_limit}A for this test")
         axis.motor.config.current_lim = args.current_limit
+    original_current_lim = axis.motor.config.current_lim
+    if args.current_limit is not None:
+        print(f"Temporarily setting current_lim to {args.current_limit}A for this test")
+        axis.motor.config.current_lim = args.current_limit
 
+    try:
+        print("Entering closed loop control...")
+        axis.requested_state = enums.AxisState.CLOSED_LOOP_CONTROL
+        time.sleep(0.5)
     try:
         print("Entering closed loop control...")
         axis.requested_state = enums.AxisState.CLOSED_LOOP_CONTROL
@@ -172,5 +188,7 @@ def main():
             axis.motor.config.current_lim = original_current_lim
 
 
+if __name__ == "__main__":
+    main()
 if __name__ == "__main__":
     main()

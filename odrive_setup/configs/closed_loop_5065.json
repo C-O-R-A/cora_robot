@@ -306,5 +306,5 @@
   "axis1.max_endstop.config.pullup": true,
   "axis1.max_endstop.config.debounce_ms": 50,
   "can.config.baud_rate": 250000,
-  "can.config.protocol": 1
+  "can.config.protocol": 0
 }
