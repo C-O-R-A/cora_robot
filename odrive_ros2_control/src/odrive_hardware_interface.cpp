@@ -3,6 +3,8 @@
 #include "pluginlib/class_list_macros.hpp"
 #include "rclcpp/rclcpp.hpp"
 
+#include "std_msgs/msg/u_int32_multi_array.hpp"
+
 // General helpers and class definitions
 #include "can_helpers.hpp"
 #include "socket_can.hpp"
@@ -36,6 +38,9 @@ public:
 
     return_type read(const rclcpp::Time&, const rclcpp::Duration&) override;
     return_type write(const rclcpp::Time&, const rclcpp::Duration&) override;
+    
+    rclcpp::Node::SharedPtr node_;
+    rclcpp::Publisher<std_msgs::msg::UInt32MultiArray>::SharedPtr heartbeat_pub_;
 
 private:
     void on_can_msg(const can_frame& frame);
@@ -50,7 +55,8 @@ private:
 };
 
 struct Axis {
-    Axis(SocketCanIntf* can_intf, uint32_t node_id) : can_intf_(can_intf), node_id_(node_id) {}
+    Axis(SocketCanIntf* can_intf, uint32_t node_id, double transmission) : 
+    can_intf_(can_intf), node_id_(node_id), transmission_(transmission) {}
 
     void on_can_msg(const rclcpp::Time& timestamp, const can_frame& frame);
 
@@ -58,6 +64,7 @@ struct Axis {
 
     SocketCanIntf* can_intf_;
     uint32_t node_id_;
+    double transmission_;
 
     // Commands (ros2_control => ODrives)
     double pos_setpoint_ = 0.0f; // [rad]
@@ -123,10 +130,11 @@ CallbackReturn ODriveHardwareInterface::on_init(const hardware_interface::Hardwa
     }
     // Parse CAN interface name
     can_intf_name_ = info_.hardware_parameters["can"];
-
+    
     // Create axes with their node IDs and add them to the axes_ vector
     for (auto& joint : info_.joints) {
-        axes_.emplace_back(&can_intf_, std::stoi(joint.parameters.at("node_id")));
+        double transmission_ = std::stod(joint.parameters.at("transmission"));
+        axes_.emplace_back(&can_intf_, std::stoi(joint.parameters.at("node_id")), transmission_);
     }
 
     return CallbackReturn::SUCCESS;
@@ -294,18 +302,18 @@ return_type ODriveHardwareInterface::write(const rclcpp::Time&, const rclcpp::Du
         // Send the CAN message that fits the set of enabled input types
         if (axis.pos_input_enabled_) {
             Set_Input_Pos_msg_t msg;
-            msg.Input_Pos = axis.pos_setpoint_ / (2 * M_PI);
-            msg.Vel_FF = axis.vel_input_enabled_ ? (axis.vel_setpoint_ / (2 * M_PI)) : 0.0f;
-            msg.Torque_FF = axis.torque_input_enabled_ ? axis.torque_setpoint_ : 0.0f;
+            msg.Input_Pos = (axis.pos_setpoint_ / (2 * M_PI)) * axis.transmission_;
+            msg.Vel_FF = axis.vel_input_enabled_ ? (axis.vel_setpoint_ / (2 * M_PI)) * axis.transmission_ : 0.0f;
+            msg.Torque_FF = axis.torque_input_enabled_ ? (axis.torque_setpoint_ / axis.transmission_) : 0.0f;
             axis.send(msg);
         } else if (axis.vel_input_enabled_) {
             Set_Input_Vel_msg_t msg;
-            msg.Input_Vel = axis.vel_setpoint_ / (2 * M_PI);
-            msg.Input_Torque_FF = axis.torque_input_enabled_ ? axis.torque_setpoint_ : 0.0f;
+            msg.Input_Vel = (axis.vel_setpoint_ / (2 * M_PI)) * axis.transmission_;
+            msg.Input_Torque_FF = axis.torque_input_enabled_ ? (axis.torque_setpoint_ / axis.transmission_) : 0.0f;
             axis.send(msg);
         } else if (axis.torque_input_enabled_) {
             Set_Input_Torque_msg_t msg;
-            msg.Input_Torque = axis.torque_setpoint_;
+            msg.Input_Torque = axis.torque_setpoint_ / axis.transmission_;
             axis.send(msg);
         } else {
             // no control enabled - don't send any setpoint
@@ -378,8 +386,8 @@ void Axis::on_can_msg(const rclcpp::Time&, const can_frame& frame) {
     switch (cmd) {
         case Get_Encoder_Estimates_msg_t::cmd_id: {
             if (Get_Encoder_Estimates_msg_t msg; try_decode(msg)) {
-                pos_estimate_ = msg.Pos_Estimate * (2 * M_PI);
-                vel_estimate_ = msg.Vel_Estimate * (2 * M_PI);
+                pos_estimate_ = (msg.Pos_Estimate / transmission_) * (2 * M_PI);
+                vel_estimate_ = (msg.Vel_Estimate / transmission_) * (2 * M_PI);
             }
         } break;
         case Get_Bus_Voltage_Current_msg_t::cmd_id: {
