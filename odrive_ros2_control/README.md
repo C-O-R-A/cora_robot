@@ -8,6 +8,14 @@ It assumes that the ODrive is already configured and calibrated (see [docs](http
 
 >This package is only compatible with ODrive v3.6. It is a modified version of the official odrive ros2 control package which is only compatible with ODrive S1/Pro.
 
+## Test
+
+```bash
+ros2 launch odrive_ros2_control single_joint.launch.py
+
+ros2 topic pub /test_position_controller/commands std_msgs/msg/Float64MultiArray "data: [6.28]" --once
+```
+
 ## Features
 
 - Communicates over Linux SocketCAN

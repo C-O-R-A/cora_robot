@@ -1,3 +1,21 @@
+# controller_manager:
+#   ros__parameters:
+#     update_rate: 100
+
+#     joint_state_broadcaster:
+#       type: joint_state_broadcaster/JointStateBroadcaster
+
+#     test_position_controller:
+#       type: forward_command_controller/ForwardCommandController
+
+# test_position_controller:
+#   ros__parameters:
+#     joints:
+#       - test_joint_1
+#       - test_joint_2
+#     interface_name: position
+
+
 controller_manager:
   ros__parameters:
     update_rate: 100
@@ -5,11 +23,19 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    test_position_controller:
-      type: forward_command_controller/ForwardCommandController
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
 
-test_position_controller:
+
+joint_trajectory_controller:
   ros__parameters:
     joints:
-      - test_joint
-    interface_name: position
+      - test_joint_1
+      - test_joint_2
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
