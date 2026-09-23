@@ -1,2 +1,2 @@
-odrive
-pid-autotune
+odrive==0.5.4
+matplotlib

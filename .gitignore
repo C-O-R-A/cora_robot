@@ -2,3 +2,4 @@
 .env
 .vscode
 odrive_setup/Odrive-Python-GUI
+__pycache__

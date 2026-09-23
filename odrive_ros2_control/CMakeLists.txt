@@ -8,6 +8,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(odrive_msgs REQUIRED)
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
@@ -25,6 +26,7 @@ ament_auto_add_library(
 
 ament_target_dependencies(odrive_ros2_control_plugin
   rclcpp
+  odrive_msgs
 )
 
 pluginlib_export_plugin_description_file(hardware_interface odrive_hardware_interface.xml)

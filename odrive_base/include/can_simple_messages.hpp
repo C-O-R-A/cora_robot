@@ -1217,6 +1217,14 @@ struct Set_Pos_Gain_msg_t final
     float Pos_Gain = 0.0f; // [(rev/s) / rev]
 };
 
+/**
+ * @struct Set_Vel_Gains_msg_t
+ * @brief Set Velocity gains for controllers
+ *
+ * Command ID: 0x0A
+ * Payload: 8 bytes
+ * 
+ */
 struct Set_Vel_Gains_msg_t final
 {
     constexpr Set_Vel_Gains_msg_t() = default;

@@ -4,7 +4,8 @@
 #include "rclcpp/rclcpp.hpp"
 
 #include "std_msgs/msg/u_int32_multi_array.hpp"
-
+#include "odrive_msgs/msg/robot_power.hpp"
+#include "odrive_msgs/msg/robot_status.hpp"
 // General helpers and class definitions
 #include "can_helpers.hpp"
 #include "socket_can.hpp"
@@ -41,6 +42,8 @@ public:
     
     rclcpp::Node::SharedPtr node_;
     rclcpp::Publisher<std_msgs::msg::UInt32MultiArray>::SharedPtr heartbeat_pub_;
+    rclcpp::Publisher<odrive_msgs::msg::RobotStatus>::SharedPtr status_pub_;
+    rclcpp::Publisher<odrive_msgs::msg::RobotPower>::SharedPtr power_pub_;
 
 private:
     void on_can_msg(const can_frame& frame);
@@ -55,8 +58,13 @@ private:
 };
 
 struct Axis {
-    Axis(SocketCanIntf* can_intf, uint32_t node_id, double transmission) : 
-    can_intf_(can_intf), node_id_(node_id), transmission_(transmission) {}
+    Axis(SocketCanIntf* can_intf, uint32_t node_id, double transmission, std::array<double, 3> gains)
+    : can_intf_(can_intf),
+      node_id_(node_id),
+      transmission_(transmission),
+      pos_gain(gains[0]),
+      vel_gain(gains[1]),
+      vel_integrator_gain(gains[2]) {}
 
     void on_can_msg(const rclcpp::Time& timestamp, const can_frame& frame);
 
@@ -65,6 +73,9 @@ struct Axis {
     SocketCanIntf* can_intf_;
     uint32_t node_id_;
     double transmission_;
+    double pos_gain;
+    double vel_gain;
+    double vel_integrator_gain;
 
     // Commands (ros2_control => ODrives)
     double pos_setpoint_ = 0.0f; // [rad]
@@ -73,22 +84,29 @@ struct Axis {
 
     // State (ODrives => ros2_control)
     // rclcpp::Time encoder_estimates_timestamp_;
-    // uint32_t axis_error_ = 0;
-    // uint8_t axis_state_ = 0;
-    // uint8_t procedure_result_ = 0;
-    // uint8_t trajectory_done_flag_ = 0;
+    uint32_t axis_error_ = 0;
+    uint8_t axis_state_ = 0;
+    uint8_t motor_error_flag_ = 0;
+    uint8_t encoder_error_flag_ = 0;
+    uint8_t controller_error_flag_ = 0;
+    uint8_t trajectory_done_flag_ = 0;
+    uint8_t procedure_result_ = 0;
+
+    uint32_t motor_error_ = 0;
+    uint32_t encoder_error_ = 0;
+    uint32_t controller_error_ = 0;
+    uint32_t sensorless_error_ = 0;
+    uint32_t active_errors_ = 0;
+    uint32_t disarm_reason_ = 0;
+
     double pos_estimate_ = NAN; // [rad]
     double vel_estimate_ = NAN; // [rad/s]
-    // double iq_setpoint_ = NAN;
-    // double iq_measured_ = NAN;
+    double iq_setpoint_ = NAN; // [A]
+    double iq_measured_ = NAN; // [A]
     double torque_target_ = NAN; // [Nm]
     double torque_estimate_ = NAN; // [Nm]
-    // uint32_t active_errors_ = 0;
-    // uint32_t disarm_reason_ = 0;
-    // double fet_temperature_ = NAN;
-    // double motor_temperature_ = NAN;
-    // double bus_voltage_ = NAN;
-    // double bus_current_ = NAN;
+    double bus_voltage_ = NAN; // [V]
+    double bus_current_ = NAN; // [A]
 
     // Indicates which controller inputs are enabled. This is configured by the
     // controller that sits on top of this hardware interface. Multiple inputs
@@ -117,6 +135,51 @@ struct Axis {
         can_intf_->send_can_frame(frame);
     }
 
+    void request_bus_voltage_current() const {
+        struct can_frame frame;
+        frame.can_id = node_id_ << 5 | Get_Bus_Voltage_Current_msg_t::cmd_id;
+        frame.can_id |= CAN_RTR_FLAG;
+        frame.can_dlc = Get_Bus_Voltage_Current_msg_t::msg_length;
+        can_intf_->send_can_frame(frame);
+    }
+
+    void request_iq() const {
+        struct can_frame frame;
+        frame.can_id = node_id_ << 5 | Get_Iq_msg_t::cmd_id;
+        frame.can_id |= CAN_RTR_FLAG;
+        frame.can_dlc = Get_Iq_msg_t::msg_length;
+        can_intf_->send_can_frame(frame);
+    }
+
+    void request_errors() const {
+        struct can_frame frame;
+        frame.can_id = node_id_ << 5 | Get_Motor_Error_msg_t::cmd_id;
+        frame.can_id |= CAN_RTR_FLAG;
+        frame.can_dlc = Get_Motor_Error_msg_t::msg_length;
+        can_intf_->send_can_frame(frame);
+
+        frame.can_id = node_id_ << 5 | Get_Encoder_Error_msg_t::cmd_id;
+        frame.can_id |= CAN_RTR_FLAG;
+        frame.can_dlc = Get_Encoder_Error_msg_t::msg_length;
+        can_intf_->send_can_frame(frame);
+
+        frame.can_id = node_id_ << 5 | Get_Controller_Error_msg_t::cmd_id;
+        frame.can_id |= CAN_RTR_FLAG;
+        frame.can_dlc = Get_Controller_Error_msg_t::msg_length;
+        can_intf_->send_can_frame(frame);
+    }
+
+    void set_gains() const {
+        Set_Pos_Gain_msg_t pos_msg;
+        pos_msg.Pos_Gain = pos_gain;
+        send(pos_msg);
+
+        Set_Vel_Gains_msg_t vel_msg;
+        vel_msg.Vel_Gain = vel_gain;
+        vel_msg.Vel_Integrator_Gain = vel_integrator_gain;
+        send(vel_msg);    
+    }
+
 }; // namespace odrive_ros2_control
 }
 using namespace odrive_ros2_control;
@@ -130,11 +193,23 @@ CallbackReturn ODriveHardwareInterface::on_init(const hardware_interface::Hardwa
     }
     // Parse CAN interface name
     can_intf_name_ = info_.hardware_parameters["can"];
-    
+
     // Create axes with their node IDs and add them to the axes_ vector
     for (auto& joint : info_.joints) {
         double transmission_ = std::stod(joint.parameters.at("transmission"));
-        axes_.emplace_back(&can_intf_, std::stoi(joint.parameters.at("node_id")), transmission_);
+        int node_id = std::stoi(joint.parameters.at("node_id"));
+        std::array<double, 3> gains = {
+            std::stod(joint.parameters.at("pos_gain")),
+            std::stod(joint.parameters.at("vel_gain")),
+            std::stod(joint.parameters.at("vel_integrator_gain"))
+        };
+
+        axes_.emplace_back(
+            &can_intf_, 
+            node_id, 
+            transmission_,
+            gains
+        );
     }
 
     return CallbackReturn::SUCCESS;
@@ -152,6 +227,11 @@ CallbackReturn ODriveHardwareInterface::on_configure(const State&) {
         return CallbackReturn::ERROR;
     }
     RCLCPP_INFO(rclcpp::get_logger("ODriveHardwareInterface"), "Initialized SocketCAN on %s", can_intf_name_.c_str());
+
+    node_ = rclcpp::Node::make_shared("odrive_ros2_control_status");
+    status_pub_ = node_->create_publisher<odrive_msgs::msg::RobotStatus>("odrive/status", 10);
+    power_pub_ = node_->create_publisher<odrive_msgs::msg::RobotPower>("odrive/power", 10);
+
     return CallbackReturn::SUCCESS;
 }
 
@@ -170,6 +250,7 @@ CallbackReturn ODriveHardwareInterface::on_activate(const State&) {
     active_ = true;
     for (auto& axis : axes_) {
         set_axis_command_mode(axis);
+        axis.set_gains();
     }
 
     return CallbackReturn::SUCCESS;
@@ -291,14 +372,46 @@ return_type ODriveHardwareInterface::read(const rclcpp::Time& timestamp, const r
     while (can_intf_.read_nonblocking()) {
     }
 
+    odrive_msgs::msg::RobotStatus status;
+    status.joint_status.resize(axes_.size());
+
+    odrive_msgs::msg::RobotPower power;
+    power.joint_power.resize(axes_.size());
+
+    for (size_t i = 0; i < axes_.size(); ++i) {
+        auto &a = axes_[i];
+
+        odrive_msgs::msg::JointStatus joint_status;
+        joint_status.axis_state.axis_state = a.axis_state_;
+        joint_status.axis_error.error = a.axis_error_;
+        joint_status.controller_error.error = a.controller_error_;
+        joint_status.encoder_error.error = a.encoder_error_;
+        joint_status.motor_error.error = a.motor_error_;
+        status.joint_status[i] = joint_status;
+
+        odrive_msgs::msg::JointPower joint_power;
+        joint_power.joint_name = info_.joints[i].name;
+        joint_power.bus_voltage = a.bus_voltage_;
+        joint_power.bus_current = a.bus_current_;
+        joint_power.iq_measured = a.iq_measured_;
+        joint_power.iq_setpoint = a.iq_setpoint_;
+        power.joint_power[i] = joint_power;
+    }
+
+    status_pub_->publish(status);
+    power_pub_->publish(power);
+
     return return_type::OK;
 }
 
 return_type ODriveHardwareInterface::write(const rclcpp::Time&, const rclcpp::Duration&) {
     for (auto& axis : axes_) {
-        // Request Feedback from odrive
+        // Request periodic feedback from the ODrive so its state can be monitored.
         axis.request_encoder_estimates();
-        
+        axis.request_bus_voltage_current();
+        axis.request_iq();
+        axis.request_errors();
+
         // Send the CAN message that fits the set of enabled input types
         if (axis.pos_input_enabled_) {
             Set_Input_Pos_msg_t msg;
@@ -384,15 +497,49 @@ void Axis::on_can_msg(const rclcpp::Time&, const can_frame& frame) {
     };
 
     switch (cmd) {
+        case Heartbeat_msg_t::cmd_id: {
+            if (Heartbeat_msg_t msg; try_decode(msg)) {
+                axis_error_ = msg.Axis_Error;
+                axis_state_ = msg.Axis_State;
+                motor_error_flag_ = msg.Motor_Error_Flag;
+                encoder_error_flag_ = msg.Encoder_Error_Flag;
+                controller_error_flag_ = msg.Controller_Error_Flag;
+                trajectory_done_flag_ = msg.Trajectory_Done_Flag;
+            }
+        } break;
         case Get_Encoder_Estimates_msg_t::cmd_id: {
             if (Get_Encoder_Estimates_msg_t msg; try_decode(msg)) {
                 pos_estimate_ = (msg.Pos_Estimate / transmission_) * (2 * M_PI);
                 vel_estimate_ = (msg.Vel_Estimate / transmission_) * (2 * M_PI);
             }
         } break;
+        case Get_Motor_Error_msg_t::cmd_id: {
+            if (Get_Motor_Error_msg_t msg; try_decode(msg)) {
+                motor_error_ = static_cast<uint32_t>(msg.Motor_Error);
+            }
+        } break;
+        case Get_Encoder_Error_msg_t::cmd_id: {
+            if (Get_Encoder_Error_msg_t msg; try_decode(msg)) {
+                encoder_error_ = static_cast<uint32_t>(msg.Encoder_Error);
+            }
+        } break;
+        case Get_Controller_Error_msg_t::cmd_id: {
+            if (Get_Controller_Error_msg_t msg; try_decode(msg)) {
+                controller_error_ = static_cast<uint32_t>(msg.Controller_Error);
+            }
+        } break;
+        case Get_Iq_msg_t::cmd_id: {
+            if (Get_Iq_msg_t msg; try_decode(msg)) {
+                iq_setpoint_ = msg.Iq_Setpoint;
+                iq_measured_ = msg.Iq_Measured;
+                torque_target_ = msg.Iq_Setpoint;
+                torque_estimate_ = msg.Iq_Measured;
+            }
+        } break;
         case Get_Bus_Voltage_Current_msg_t::cmd_id: {
             if (Get_Bus_Voltage_Current_msg_t msg; try_decode(msg)) {
-                torque_estimate_ = msg.Bus_Current;
+                bus_voltage_ = msg.Bus_Voltage;
+                bus_current_ = msg.Bus_Current;
             }
         } break;
             // silently ignore unimplemented command IDs

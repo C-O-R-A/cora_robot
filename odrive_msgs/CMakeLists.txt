@@ -13,6 +13,8 @@ find_package(std_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/RobotStatus.msg"
   "msg/JointStatus.msg"
+  "msg/RobotPower.msg"
+  "msg/JointPower.msg"
   "msg/EncoderError.msg"
   "msg/MotorError.msg"
   "msg/ControllerError.msg"

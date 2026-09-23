@@ -9,7 +9,7 @@ ROS 2 Packages for the real cora robot.
 1. install odrivetool
 
     ```bash
-    sudo pip install odrivetool
+    python -m pip install --upgrade odrive
     ```
 
 2. Load user config (6354 or 5065)
