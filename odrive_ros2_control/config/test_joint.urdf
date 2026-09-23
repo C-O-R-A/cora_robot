@@ -41,6 +41,7 @@
     <hardware>
       <plugin>odrive_ros2_control_plugin/odriveHardwareInterface</plugin>
       <param name="can">can0</param>
+      <param name="initial_positions_file">/home/matt/Desktop/CORA/Software/cora_robot/src/cora_common/cora_moveit_config/config/initial_positions.yaml</param>
     </hardware>
 
     <joint name="test_joint_1">
