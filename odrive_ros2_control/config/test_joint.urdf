@@ -1,40 +1,47 @@
 <?xml version="1.0"?>
-<robot name="test_joint_robot">
+<robot name="my_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <link name="base_link"/>
-  <link name="arm_link_1"/>
-  <link name="arm_link_2"/>
+  <xacro:property name="robot_name" value="my_robot" />
 
-  <!-- Joint 1 -->
-  <joint name="test_joint_1" type="revolute">
-    <parent link="base_link"/>
-    <child link="arm_link_1"/>
+  <link name="base_link">
+    <inertial>
+      <mass value="0" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial>
+  </link>
 
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
+  <!-- ─── Joints ─────────────────────────────────────────── -->
+  <xacro:include filename="$(find revolute_m_description)/urdf/revolute_m.urdf.xacro"/>
 
-    <limit
-      lower="-3.14159265"
-      upper="3.14159265"
-      effort="10.0"
-      velocity="3.0"/>
-  </joint>
+  <xacro:revolute_m
+    prefix="J1"
+    parent_connection="base_link"
+    input="joint_in"
+    lower="-3.14159"
+    upper="3.14159">
+    <origin xyz="0.000000 0.000000 0.000000"
+            rpy="0.000000 0.000000 0.000000"/>
+  </xacro:revolute_m>
 
-  <!-- Joint 2 -->
-  <joint name="test_joint_2" type="revolute">
-    <parent link="arm_link_1"/>
-    <child link="arm_link_2"/>
+  <xacro:revolute_m
+    prefix="J2"
+    parent_connection="J1_joint_out"
+    input="joint_in"
+    lower="-3.14159"
+    upper="3.14159">
+    <origin xyz="0.000000 0.000000 0.000000"
+            rpy="0.000000 0.000000 0.000000"/>
+  </xacro:revolute_m>
 
-    <origin xyz="0 0 0.5" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
-
-    <limit
-      lower="-3.14159265"
-      upper="3.14159265"
-      effort="10.0"
-      velocity="3.0"/>
-  </joint>
-
+  <xacro:revolute_m
+    prefix="J3"
+    parent_connection="J2_joint_out"
+    input="joint_in"
+    lower="-3.14159"
+    upper="3.14159">
+    <origin xyz="0.000000 0.000000 0.000000"
+            rpy="0.000000 0.000000 0.000000"/>
+  </xacro:revolute_m>
 
   <ros2_control name="CoraTestJoint" type="system">
 
@@ -45,7 +52,7 @@
     </hardware>
 
     <joint name="test_joint_1">
-      <param name="node_id">0</param>
+      <param name="node_id">3</param>
       <param name="transmission">-107.429</param>
 
       <command_interface name="position"/>
@@ -55,7 +62,18 @@
     </joint>
 
     <joint name="test_joint_2">
-      <param name="node_id">3</param>
+      <param name="node_id">4</param>
+      <param name="transmission">-107.429</param>
+
+      <command_interface name="position"/>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+
+    <joint name="test_joint_3">
+      <param name="node_id">5</param>
       <param name="transmission">-107.429</param>
 
       <command_interface name="position"/>

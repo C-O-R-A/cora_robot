@@ -10,9 +10,7 @@ odrivetool restore-config closed_loop_6354.json
 dump_errors(odrv0)
 odrv0.axis0.clear_errors()
 odrv0.save_configuration()
-
-    odrv0.save_configuration()
-    odrv0.reboot()
+odrv0.reboot()
 
 ros2 topic pub --once /joint_trajectory_controller/joint_trajectory \
 trajectory_msgs/msg/JointTrajectory \
@@ -26,7 +24,7 @@ trajectory_msgs/msg/JointTrajectory \
       time_from_start: {sec: 0, nanosec: 0}
     },
     {
-      positions: [6.28318531, 6.28318531],
+      positions: [1.57, 1.57],
       time_from_start: {sec: 20, nanosec: 0}
     },
     {
