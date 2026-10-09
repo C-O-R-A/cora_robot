@@ -20,7 +20,7 @@ def generate_launch_description():
     ])
 
     robot_description = {
-        "robot_description": Command(["cat ", urdf_path])
+        "robot_description": Command(["xacro ", urdf_path])
     }
 
     robot_state_publisher = Node(
