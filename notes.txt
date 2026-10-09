@@ -17,20 +17,21 @@ trajectory_msgs/msg/JointTrajectory \
 ros2 topic pub --once /joint_trajectory_controller/joint_trajectory \
 trajectory_msgs/msg/JointTrajectory \
 "{
-  joint_names: ['test_joint_1', 'test_joint_2'],
+  joint_names: ['J1', 'J2', J'3'],
   points: [
     {
-      positions: [0.0, 0.0],
+      positions: [0.0, 0.0, 0.0],
       time_from_start: {sec: 0, nanosec: 0}
     },
     {
-      positions: [1.57, 1.57],
+      positions: [1.57, 1.57, 0.57],
       time_from_start: {sec: 20, nanosec: 0}
     },
     {
-      positions: [0.0, 0.0],
+      positions: [0.0, 0.0, 0.0],
       time_from_start: {sec: 40, nanosec: 0}
     }
   ]
 }"
 
+ros2 run rqt_joint_trajectory_controller rqt_joint_trajectory_controller

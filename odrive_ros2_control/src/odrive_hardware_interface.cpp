@@ -408,9 +408,9 @@ return_type ODriveHardwareInterface::write(const rclcpp::Time&, const rclcpp::Du
     for (auto& axis : axes_) {
         // Request periodic feedback from the ODrive so its state can be monitored.
         axis.request_encoder_estimates();
-        axis.request_bus_voltage_current();
-        axis.request_iq();
-        axis.request_errors();
+        // axis.request_bus_voltage_current();
+        // axis.request_iq();
+        // axis.request_errors();
 
         // Send the CAN message that fits the set of enabled input types
         if (axis.pos_input_enabled_) {
