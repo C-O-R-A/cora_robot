@@ -16,5 +16,5 @@ jobs:
         uses: ros-tooling/action-ros-ci@v0.4
         with:
           target-ros2-distro: jazzy
-          package-name: odrive_base odrive_msgs odrive_ros2_control odrive_setup
+          package-name: odrive_msgs odrive_ros2_control
         if: always()
