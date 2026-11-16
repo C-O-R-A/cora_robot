@@ -378,28 +378,28 @@ return_type ODriveHardwareInterface::read(const rclcpp::Time& timestamp, const r
     odrive_msgs::msg::RobotPower power;
     power.joint_power.resize(axes_.size());
 
-    for (size_t i = 0; i < axes_.size(); ++i) {
-        auto &a = axes_[i];
+    // for (size_t i = 0; i < axes_.size(); ++i) {
+    //     auto &a = axes_[i];
 
-        odrive_msgs::msg::JointStatus joint_status;
-        joint_status.axis_state.axis_state = a.axis_state_;
-        joint_status.axis_error.error = a.axis_error_;
-        joint_status.controller_error.error = a.controller_error_;
-        joint_status.encoder_error.error = a.encoder_error_;
-        joint_status.motor_error.error = a.motor_error_;
-        status.joint_status[i] = joint_status;
+    //     odrive_msgs::msg::JointStatus joint_status;
+    //     joint_status.axis_state.axis_state = a.axis_state_;
+    //     joint_status.axis_error.error = a.axis_error_;
+    //     joint_status.controller_error.error = a.controller_error_;
+    //     joint_status.encoder_error.error = a.encoder_error_;
+    //     joint_status.motor_error.error = a.motor_error_;
+    //     status.joint_status[i] = joint_status;
 
-        odrive_msgs::msg::JointPower joint_power;
-        joint_power.joint_name = info_.joints[i].name;
-        joint_power.bus_voltage = a.bus_voltage_;
-        joint_power.bus_current = a.bus_current_;
-        joint_power.iq_measured = a.iq_measured_;
-        joint_power.iq_setpoint = a.iq_setpoint_;
-        power.joint_power[i] = joint_power;
-    }
+    //     odrive_msgs::msg::JointPower joint_power;
+    //     joint_power.joint_name = info_.joints[i].name;
+    //     joint_power.bus_voltage = a.bus_voltage_;
+    //     joint_power.bus_current = a.bus_current_;
+    //     joint_power.iq_measured = a.iq_measured_;
+    //     joint_power.iq_setpoint = a.iq_setpoint_;
+    //     power.joint_power[i] = joint_power;
+    // }
 
-    status_pub_->publish(status);
-    power_pub_->publish(power);
+    // status_pub_->publish(status);
+    // power_pub_->publish(power);
 
     return return_type::OK;
 }
@@ -513,34 +513,34 @@ void Axis::on_can_msg(const rclcpp::Time&, const can_frame& frame) {
                 vel_estimate_ = (msg.Vel_Estimate / transmission_) * (2 * M_PI);
             }
         } break;
-        case Get_Motor_Error_msg_t::cmd_id: {
-            if (Get_Motor_Error_msg_t msg; try_decode(msg)) {
-                motor_error_ = static_cast<uint32_t>(msg.Motor_Error);
-            }
-        } break;
-        case Get_Encoder_Error_msg_t::cmd_id: {
-            if (Get_Encoder_Error_msg_t msg; try_decode(msg)) {
-                encoder_error_ = static_cast<uint32_t>(msg.Encoder_Error);
-            }
-        } break;
-        case Get_Controller_Error_msg_t::cmd_id: {
-            if (Get_Controller_Error_msg_t msg; try_decode(msg)) {
-                controller_error_ = static_cast<uint32_t>(msg.Controller_Error);
-            }
-        } break;
-        case Get_Iq_msg_t::cmd_id: {
-            if (Get_Iq_msg_t msg; try_decode(msg)) {
-                iq_setpoint_ = msg.Iq_Setpoint;
-                iq_measured_ = msg.Iq_Measured;
-                torque_target_ = msg.Iq_Setpoint;
-                torque_estimate_ = msg.Iq_Measured;
-            }
-        } break;
-        case Get_Bus_Voltage_Current_msg_t::cmd_id: {
-            if (Get_Bus_Voltage_Current_msg_t msg; try_decode(msg)) {
-                bus_voltage_ = msg.Bus_Voltage;
-                bus_current_ = msg.Bus_Current;
-            }
+        // case Get_Motor_Error_msg_t::cmd_id: {
+        //     if (Get_Motor_Error_msg_t msg; try_decode(msg)) {
+        //         motor_error_ = static_cast<uint32_t>(msg.Motor_Error);
+        //     }
+        // } break;
+        // case Get_Encoder_Error_msg_t::cmd_id: {
+        //     if (Get_Encoder_Error_msg_t msg; try_decode(msg)) {
+        //         encoder_error_ = static_cast<uint32_t>(msg.Encoder_Error);
+        //     }
+        // } break;
+        // case Get_Controller_Error_msg_t::cmd_id: {
+        //     if (Get_Controller_Error_msg_t msg; try_decode(msg)) {
+        //         controller_error_ = static_cast<uint32_t>(msg.Controller_Error);
+        //     }
+        // } break;
+        // case Get_Iq_msg_t::cmd_id: {
+        //     if (Get_Iq_msg_t msg; try_decode(msg)) {
+        //         iq_setpoint_ = msg.Iq_Setpoint;
+        //         iq_measured_ = msg.Iq_Measured;
+        //         torque_target_ = msg.Iq_Setpoint;
+        //         torque_estimate_ = msg.Iq_Measured;
+        //     }
+        // } break;
+        // case Get_Bus_Voltage_Current_msg_t::cmd_id: {
+        //     if (Get_Bus_Voltage_Current_msg_t msg; try_decode(msg)) {
+        //         bus_voltage_ = msg.Bus_Voltage;
+        //         bus_current_ = msg.Bus_Current;
+        //     }
         } break;
             // silently ignore unimplemented command IDs
     }
