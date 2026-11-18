@@ -541,7 +541,7 @@ void Axis::on_can_msg(const rclcpp::Time&, const can_frame& frame) {
         //         bus_voltage_ = msg.Bus_Voltage;
         //         bus_current_ = msg.Bus_Current;
         //     }
-        } break;
+        // } break;
             // silently ignore unimplemented command IDs
     }
 }

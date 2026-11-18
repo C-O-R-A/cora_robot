@@ -29,7 +29,7 @@ trajectory_msgs/msg/JointTrajectory \
       time_from_start: {sec: 0, nanosec: 0}
     },
     {
-      positions: [1.57, 1.57, 0.57],
+      positions: [0.5, 0.5, 0.5],
       time_from_start: {sec: 20, nanosec: 0}
     },
     {
