@@ -52,6 +52,7 @@ private:
     bool active_;
     EpollEventLoop event_loop_;
     std::vector<Axis> axes_;
+    std::vector<Axis> fake_axes_;
     std::string can_intf_name_;
     SocketCanIntf can_intf_;
     rclcpp::Time timestamp_;
@@ -196,20 +197,36 @@ CallbackReturn ODriveHardwareInterface::on_init(const hardware_interface::Hardwa
 
     // Create axes with their node IDs and add them to the axes_ vector
     for (auto& joint : info_.joints) {
-        double transmission_ = std::stod(joint.parameters.at("transmission"));
-        int node_id = std::stoi(joint.parameters.at("node_id"));
-        std::array<double, 3> gains = {
-            std::stod(joint.parameters.at("pos_gain")),
-            std::stod(joint.parameters.at("vel_gain")),
-            std::stod(joint.parameters.at("vel_integrator_gain"))
-        };
 
-        axes_.emplace_back(
-            &can_intf_, 
-            node_id, 
-            transmission_,
-            gains
-        );
+        std::string is_fake_str = joint.parameters.at("is_fake");
+
+        if (is_fake_str == "true") {
+            double transmission_ = 1.0; // Default transmission for fake axes
+            int node_id = std::stoi(joint.parameters.at("node_id"));
+            std::array<double, 3> gains = {0, 0, 0}; // Default gains for fake axes
+            fake_axes_.emplace_back(
+                &can_intf_, 
+                node_id, 
+                transmission_,
+                gains
+            );
+        } 
+
+        else {
+            double transmission_ = std::stod(joint.parameters.at("transmission"));
+            int node_id = std::stoi(joint.parameters.at("node_id"));
+            std::array<double, 3> gains = {
+                std::stod(joint.parameters.at("pos_gain")),
+                std::stod(joint.parameters.at("vel_gain")),
+                std::stod(joint.parameters.at("vel_integrator_gain"))
+            };
+            axes_.emplace_back(
+                &can_intf_, 
+                node_id, 
+                transmission_,
+                gains
+            );
+        }
     }
 
     return CallbackReturn::SUCCESS;
@@ -372,11 +389,19 @@ return_type ODriveHardwareInterface::read(const rclcpp::Time& timestamp, const r
     while (can_intf_.read_nonblocking()) {
     }
 
-    odrive_msgs::msg::RobotStatus status;
-    status.joint_status.resize(axes_.size());
+    for (auto& axis : axes_) {
+        if (axis.is_fake_) {
+            axis.pos_estimate_ += axis.pos_setpoint_ ;
+            axis.vel_estimate_ = axis.vel_setpoint_;
+            axis.torque_target_ = axis.torque_setpoint_;
+        }
+    }
 
-    odrive_msgs::msg::RobotPower power;
-    power.joint_power.resize(axes_.size());
+    // odrive_msgs::msg::RobotStatus status;
+    // status.joint_status.resize(axes_.size());
+
+    // odrive_msgs::msg::RobotPower power;
+    // power.joint_power.resize(axes_.size());
 
     // for (size_t i = 0; i < axes_.size(); ++i) {
     //     auto &a = axes_[i];

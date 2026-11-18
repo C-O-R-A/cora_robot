@@ -5,6 +5,12 @@
    ])
 
  start_liveplotter(properties=[
+       odrv0.axis0.encoder._pos_estimate_property,
+       odrv0.axis0.motor.current_control._Ibus_property,
+       odrv0.axis0.motor.current_control._Iq_measured_property
+   ])
+
+ start_liveplotter(properties=[
        odrv0.axis0.motor.current_control._Ibus_property,
        odrv0.axis0.motor.current_control._Iq_measured_property
    ])
@@ -45,4 +51,3 @@ ros2 run rqt_joint_trajectory_controller rqt_joint_trajectory_controller
 
 odrv0.axis0.controller.config.control_mode = ... (1 = torque, 2 = velocity, 3 = position)
 odrv0.axis0.requested_state = ... (1 = idle, 8 = closed loop control)
-odrv0.axis0.st

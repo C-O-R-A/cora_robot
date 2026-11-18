@@ -20,8 +20,8 @@ Steps:
     6. reconnect, clear errors, restart clean
 
 Usage:
-    python3 quicksetup.py configs/closed_loop_6354.json --axis 0
-    python3 quicksetup.py configs/closed_loop_5065.json --axis 0
+    python3 quicksetup_odesc.py configs/closed_loop_6354.json --axis 0
+    python3 quicksetup_odesc.py configs/closed_loop_5065.json --axis 0
 """
 import argparse
 import os
