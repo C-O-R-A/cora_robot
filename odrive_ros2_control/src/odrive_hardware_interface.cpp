@@ -52,20 +52,20 @@ private:
     bool active_;
     EpollEventLoop event_loop_;
     std::vector<Axis> axes_;
-    std::vector<Axis> fake_axes_;
     std::string can_intf_name_;
     SocketCanIntf can_intf_;
     rclcpp::Time timestamp_;
 };
 
 struct Axis {
-    Axis(SocketCanIntf* can_intf, uint32_t node_id, double transmission, std::array<double, 3> gains)
+    Axis(SocketCanIntf* can_intf, uint32_t node_id, double transmission, std::array<double, 3> gains, bool is_fake)
     : can_intf_(can_intf),
       node_id_(node_id),
       transmission_(transmission),
       pos_gain(gains[0]),
       vel_gain(gains[1]),
-      vel_integrator_gain(gains[2]) {}
+      vel_integrator_gain(gains[2])
+      is_fake(is_fake) {}
 
     void on_can_msg(const rclcpp::Time& timestamp, const can_frame& frame);
 
@@ -77,6 +77,7 @@ struct Axis {
     double pos_gain;
     double vel_gain;
     double vel_integrator_gain;
+    bool is_fake;
 
     // Commands (ros2_control => ODrives)
     double pos_setpoint_ = 0.0f; // [rad]
@@ -204,11 +205,12 @@ CallbackReturn ODriveHardwareInterface::on_init(const hardware_interface::Hardwa
             double transmission_ = 1.0; // Default transmission for fake axes
             int node_id = std::stoi(joint.parameters.at("node_id"));
             std::array<double, 3> gains = {0, 0, 0}; // Default gains for fake axes
-            fake_axes_.emplace_back(
+            axes_.emplace_back(
                 &can_intf_, 
                 node_id, 
                 transmission_,
-                gains
+                gains,
+                true
             );
         } 
 
@@ -224,7 +226,8 @@ CallbackReturn ODriveHardwareInterface::on_init(const hardware_interface::Hardwa
                 &can_intf_, 
                 node_id, 
                 transmission_,
-                gains
+                gains,
+                false
             );
         }
     }
@@ -390,13 +393,12 @@ return_type ODriveHardwareInterface::read(const rclcpp::Time& timestamp, const r
     }
 
     for (auto& axis : axes_) {
-        if (axis.is_fake_) {
+        if (axis.is_fake) {
             axis.pos_estimate_ += axis.pos_setpoint_ ;
             axis.vel_estimate_ = axis.vel_setpoint_;
             axis.torque_target_ = axis.torque_setpoint_;
         }
     }
-
     // odrive_msgs::msg::RobotStatus status;
     // status.joint_status.resize(axes_.size());
 
