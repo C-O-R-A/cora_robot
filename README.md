@@ -11,7 +11,7 @@ B) do the setup manually using the odrive cli odrivetool.
 
 The reccomended setup for development is as follows:
 ```mermaid
-    flowchart TD
+    flowchart LR
         A(Run setup script) --> 
             B((Settings need
             adjusting?)) 
