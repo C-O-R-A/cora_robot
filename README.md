@@ -109,5 +109,3 @@ The reccomended setup for development is as follows:
     odrv0.save_configuration()
     odrv0.reboot()
     ```
-
-8. Run further setup using python script
