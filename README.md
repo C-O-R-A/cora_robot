@@ -22,7 +22,6 @@ The reccomended setup for development is as follows:
         B --> 
             |no| F[Done]
 
-        E --> F
 
         subgraph iteratively debug
             C --> 
