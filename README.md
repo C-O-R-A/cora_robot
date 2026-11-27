@@ -5,6 +5,28 @@
 ROS 2 Packages for the real cora robot.
 
 ## Odrive v3.6 setup
+There are two main ways we can setup the odrive devices.
+We can A) run the standard setup scripts with command line args, or
+B) do the setup manually using the odrive cli odrivetool.
+
+The reccomended setup for development is as follows:
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant App as Web App
+    participant API as Auth Server
+
+    User->>App: Enter email & password
+    App->>API: POST /login
+    alt Valid credentials
+        API-->>App: 200 OK (JWT Token)
+        App-->>User: Redirect to Dashboard
+    else Invalid credentials
+        API-->>App: 401 Unauthorized
+        App-->>User: Show error message
+    end
+```
 
 1. install odrivetool
 
