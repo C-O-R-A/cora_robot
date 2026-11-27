@@ -11,21 +11,30 @@ B) do the setup manually using the odrive cli odrivetool.
 
 The reccomended setup for development is as follows:
 ```mermaid
-sequenceDiagram
-    autonumber
-    actor User
-    participant App as Web App
-    participant API as Auth Server
+    flowchart TD
+        A(Run setup script) --> 
+            B((Settings need
+            adjusting?)) 
+        B --> 
+            |yes| C(manually adjust 
+            using odrivetool)
 
-    User->>App: Enter email & password
-    App->>API: POST /login
-    alt Valid credentials
-        API-->>App: 200 OK (JWT Token)
-        App-->>User: Redirect to Dashboard
-    else Invalid credentials
-        API-->>App: 401 Unauthorized
-        App-->>User: Show error message
-    end
+        B --> 
+            |no| F[Done]
+
+        E --> F
+
+        subgraph iteratively debug
+            C --> 
+                D(Save settings to 
+                the original config)
+            D -->
+                E(Test new config with
+                fresh calibration using
+                 setup script)
+            E --> B
+        end
+
 ```
 
 1. install odrivetool
