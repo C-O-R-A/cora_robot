@@ -16,8 +16,7 @@ The reccomended setup for development is as follows:
             B((Settings need
             adjusting?)) 
         B --> 
-            |yes| C(manually adjust 
-            using odrivetool)
+            |yes| C(manually adjust using odrivetool)
 
         B --> 
             |no| F[Done]
@@ -26,17 +25,30 @@ The reccomended setup for development is as follows:
 
         subgraph iteratively debug
             C --> 
-                D(Save settings to 
-                the original config)
+                D(Save settings to the original config)
             D -->
-                E(Test new config with
-                fresh calibration using
-                 setup script)
+                E(Test new config with fresh calibration using setup script)
             E --> B
         end
-
 ```
 
+### Using Setup Script
+1. Installing deps and sourcing venv
+   ```bash
+   python3 -m venv odrive_setup/.venv
+   pip install -r requirements.txt
+   ```
+
+2. Running Calibration
+    ```bash Odesc controller + 6354 motor
+    python3 quicksetup_xdrive.py configs/6354_270kv/6354_mks_xdrive.json --axis 0
+    ```
+
+    ```bash Xdrive controller + 6354 motor
+    python3 quicksetup_odesc.py configs/6354_270kv/closed_loop_6354.json --axis 0
+    ```
+
+### Manual Calibration Run Setup
 1. install odrivetool
 
     ```bash
